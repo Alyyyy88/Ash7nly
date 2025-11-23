@@ -1,0 +1,9 @@
+server:
+  port: 8761 # The standard port for Eureka
+
+eureka:
+  client:
+    register-with-eureka: false # Do not register myself
+    fetch-registry: false       # Do not pull list of services (I am the list!)
+  server:
+    wait-time-in-ms-when-sync-empty: 0 # Starts faster during development

@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="8. Analytics Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="analytics-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.analytics.AnalyticsServiceApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+

@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+jwt:
+  secret: mySuperSecretKey123!
+  expiration: 3600000  # 1 hour in milliseconds
+
+security:
+  public-routes:
+    - /api/users/**
+    - /api/auth/login
+    - /api/auth/register
+#    - /public/**
+#    - /h2-console/**
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

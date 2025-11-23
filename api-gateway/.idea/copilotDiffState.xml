@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/src/main/java/com/ash7nly/apigateway/ApiGatewayApplication.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/main/java/com/ash7nly/apigateway/ApiGatewayApplication.java" />
+              <option name="originalContent" value="package com.ash7nly.apigateway;&#10;&#10;import org.springframework.boot.SpringApplication;&#10;import org.springframework.boot.autoconfigure.SpringBootApplication;&#10;import org.springframework.cloud.client.discovery.EnableDiscoveryClient;&#10;&#10;@SpringBootApplication&#10;@EnableDiscoveryClient&#10;public class ApiGatewayApplication {&#10;&#10;    public static void main(String[] args) {&#10;        SpringApplication.run(ApiGatewayApplication.class, args);&#10;    }&#10;&#10;}&#10;" />
+              <option name="updatedContent" value="package com.ash7nly.apigateway;&#10;&#10;import org.springframework.boot.SpringApplication;&#10;import org.springframework.boot.autoconfigure.SpringBootApplication;&#10;import org.springframework.cloud.client.discovery.EnableDiscoveryClient;&#10;&#10;@SpringBootApplication&#10;@EnableDiscoveryClient&#10;public class ApiGatewayApplication {&#10;&#10;    public static void main(String[] args) {&#10;        SpringApplication.run(ApiGatewayApplication.class, args);&#10;    }&#10;&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

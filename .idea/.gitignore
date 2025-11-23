@@ -1,0 +1,34 @@
+# Keep these shared IntelliJ configurations
+!.gitignore
+!compiler.xml
+!encodings.xml
+!misc.xml
+!vcs.xml
+!runConfigurations/
+
+# Ignore user-specific files
+workspace.xml
+tasks.xml
+usage.statistics.xml
+dictionaries/
+shelf/
+aws.xml
+contentModel.xml
+dataSources/
+dataSources.ids
+dataSources.local.xml
+sqlDataSources.xml
+dynamic.xml
+uiDesigner.xml
+dbnavigator.xml
+copilotDiffState.xml
+copilot.data.migration.*
+
+# Ignore auto-generated
+gradle.xml
+libraries/
+modules.xml
+*.iml
+modules/
+jarRepositories.xml
+

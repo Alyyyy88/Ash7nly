@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="6. Delivery Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="delivery-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.delivery.DeliveryServiceApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+
