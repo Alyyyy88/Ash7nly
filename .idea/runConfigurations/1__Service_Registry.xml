@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="1. Service Registry" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="service-registry" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.serviceregistry.ServiceRegistryApplication" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>

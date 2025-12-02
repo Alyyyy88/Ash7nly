@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All Services" type="CompoundRunConfigurationType">
-    <toRun name="Database" type="docker-deploy" />
     <toRun name="1. Service Registry" type="SpringBootApplicationConfigurationType" />
     <toRun name="2. API Gateway" type="SpringBootApplicationConfigurationType" />
     <toRun name="3. User Service" type="SpringBootApplicationConfigurationType" />
