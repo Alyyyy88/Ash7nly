@@ -1,7 +1,11 @@
 package com.ash7nly.shipment.DTOs;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Data
 public class CreateShipmentRequest {
     private long merchantId;

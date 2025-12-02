@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ShipmentController {
 
-    @Autowired
+
     private final CreateService CService;
 
     @PostMapping
     public ResponseEntity<?> createShipment(@RequestBody CreateShipmentRequest request,
                                             @RequestHeader(Headers.USER_ID) Long userId,
                                             @RequestHeader(Headers.USER_ROLE) String role) {
-        // authorize merchant
         if (!"MERCHANT".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only merchants can create shipments.");
