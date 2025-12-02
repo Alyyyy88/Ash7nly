@@ -32,3 +32,4 @@ modules.xml
 modules/
 jarRepositories.xml
 
+/dataSources.xml
