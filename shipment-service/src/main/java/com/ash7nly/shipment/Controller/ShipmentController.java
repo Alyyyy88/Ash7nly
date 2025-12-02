@@ -25,7 +25,7 @@ public class ShipmentController {
                                             @RequestHeader(Headers.USER_ROLE) String role) {
         if (!"MERCHANT".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Only merchants can create shipments.");
+                    .body("Only merchants can create shipments");
         }
 
         ShipmentEntity shipment = CService.createShipment(request, userId);
