@@ -29,6 +29,9 @@ public class ShipmentEntity {
     private String PackageWeight;
     private String PackageDimension;
 
+    @Column(nullable = false)
+    private Long merchantId;
+
     @Lob
     private String PackageDescription;
 
