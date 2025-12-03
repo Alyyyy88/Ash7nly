@@ -1,14 +1,12 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All Services" type="CompoundRunConfigurationType">
-    <toRun name="Database" type="docker-deploy" />
-    <toRun name="1. Service Registry" type="SpringBootApplicationConfigurationType" />
-    <toRun name="2. API Gateway" type="SpringBootApplicationConfigurationType" />
-    <toRun name="3. User Service" type="SpringBootApplicationConfigurationType" />
-    <toRun name="4. Shipment Service" type="SpringBootApplicationConfigurationType" />
-    <toRun name="5. Payment Service" type="SpringBootApplicationConfigurationType" />
-    <toRun name="6. Delivery Service" type="SpringBootApplicationConfigurationType" />
-    <toRun name="7. Notification Service" type="SpringBootApplicationConfigurationType" />
-    <toRun name="8. Analytics Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="1. API Gateway" type="SpringBootApplicationConfigurationType" />
+    <toRun name="2. User Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="3. Shipment Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="4. Payment Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="5. Delivery Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="6. Notification Service" type="SpringBootApplicationConfigurationType" />
+    <toRun name="7. Analytics Service" type="SpringBootApplicationConfigurationType" />
     <method v="2" />
   </configuration>
 </component>

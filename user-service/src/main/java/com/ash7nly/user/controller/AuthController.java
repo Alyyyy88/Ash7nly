@@ -5,15 +5,17 @@ import com.ash7nly.user.dto.req.LoginRequest;
 import com.ash7nly.user.dto.req.RegisterRequest;
 import com.ash7nly.user.dto.res.AuthResponse;
 import com.ash7nly.user.service.AuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public ApiResponse<AuthResponse> register(@RequestBody RegisterRequest request) {

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="3. User Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="2. User Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="user-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.user.UserServiceApplication" />
     <method v="2">
@@ -7,4 +7,3 @@
     </method>
   </configuration>
 </component>
-

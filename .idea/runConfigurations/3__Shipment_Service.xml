@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="4. Shipment Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="3. Shipment Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="shipment-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.shipment.ShipmentServiceApplication" />
     <method v="2">
