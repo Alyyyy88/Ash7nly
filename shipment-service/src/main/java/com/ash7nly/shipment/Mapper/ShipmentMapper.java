@@ -1,30 +1,44 @@
 package com.ash7nly.shipment.Mapper;
 
 import com.ash7nly.common.enums.ShipmentStatus;
-import com.ash7nly.shipment.DTOs.CreateShipmentRequest;
+import com.ash7nly.shipment.DTOs.CancelShipmentResponseDto;
+import com.ash7nly.shipment.DTOs.CreateShipmentDTO;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component   // <<< ADD THIS
 public class ShipmentMapper {
+        private final TrackingMapper trackingMapper;
+        public ShipmentMapper(TrackingMapper trackingMapper){
+            this.trackingMapper=trackingMapper;
 
-    public ShipmentEntity toEntity(CreateShipmentRequest request, Long merchantId) {
-        return ShipmentEntity.builder()
-                .merchantId(merchantId)
-                .PickupAdress(request.getPickupAddress())
-                .DeliveryAdress(request.getDeliveryAddress())
-                .CustomerName(request.getCustomerName())
-                .Customerphone(request.getCustomerPhone())
-                .PackageWeight(request.getPackageWeight())
-                .PackageDimension(request.getPackageDimension())
-                .PackageDescription(request.getPackageDescription())
-                .cost(request.getCost())
-                .TrackingNumber(generateTrackingNumber())
-                .Status(ShipmentStatus.CREATED)
-                .build();
+        }
+    public ShipmentEntity toEntity(CreateShipmentDTO request, Long merchantId) {
+
+        ShipmentEntity shipment = new ShipmentEntity();
+        shipment.setMerchantId(merchantId);
+        shipment.setPickupAdress(request.getPickupAdress());
+        shipment.setDeliveryAdress(request.getDeliveryAdress());
+        shipment.setCustomerName(request.getCustomerName());
+        shipment.setCustomerphone(request.getCustomerPhone());
+        shipment.setPackageWeight(request.getPackageWeight());
+        shipment.setPackageDimension(request.getPackageDimension());
+        shipment.setPackageDescription(request.getPackageDescription());
+        shipment.setCost(request.getCost());
+        shipment.setStatus(ShipmentStatus.CREATED);
+        shipment.setTrackingNumber(trackingMapper.generateTrackingCode());
+        shipment.setActive(true);
+
+        return shipment;
     }
 
-    private long generateTrackingNumber() {
-        return System.currentTimeMillis(); // simple unique tracking
+    public static CancelShipmentResponseDto toCancelResponse(ShipmentEntity shipment) {
+
+        CancelShipmentResponseDto dto = new CancelShipmentResponseDto();
+        dto.setTrackingNumber(shipment.getTrackingNumber());
+        dto.setStatus(shipment.getStatus().name());
+        dto.setMessage("Shipment cancelled successfully");
+
+        return dto;
     }
 }

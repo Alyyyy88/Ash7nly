@@ -7,35 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="common" />
-      </profile>
-      <profile name="Annotation profile for api-gateway" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.7/spring-boot-configuration-processor-3.5.7.jar" />
-        </processorPath>
-        <module name="api-gateway" />
-      </profile>
-      <profile name="Annotation profile for ash7nly-parent" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
-        </processorPath>
-        <module name="analytics-service" />
         <module name="delivery-service" />
-        <module name="shipment-service" />
         <module name="payment-service" />
+        <module name="common" />
+        <module name="analytics-service" />
+        <module name="api-gateway" />
+        <module name="shipment-service" />
         <module name="user-service" />
         <module name="notification-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="driver-service" target="17" />
       <module name="service-registry" target="21" />
     </bytecodeTargetLevel>
   </component>
@@ -45,7 +27,6 @@
       <module name="api-gateway" options="-parameters" />
       <module name="common" options="-parameters" />
       <module name="delivery-service" options="-parameters" />
-      <module name="driver-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="payment-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />

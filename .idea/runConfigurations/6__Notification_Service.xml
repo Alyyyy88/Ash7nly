@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="7. Notification Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="6. Notification Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="notification-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.notification.NotificationServiceApplication" />
     <method v="2">
@@ -7,4 +7,3 @@
     </method>
   </configuration>
 </component>
-

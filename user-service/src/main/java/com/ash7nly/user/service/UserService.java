@@ -8,15 +8,17 @@ import com.ash7nly.user.dto.req.UserUpdateRequest;
 import com.ash7nly.user.entity.UserEntity;
 import com.ash7nly.user.mapper.UserMapper;
 import com.ash7nly.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Get user details by ID.

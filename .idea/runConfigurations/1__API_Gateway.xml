@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="2. API Gateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="1. API Gateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="api-gateway" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.ash7nly.apigateway.ApiGatewayApplication" />
     <method v="2">
@@ -7,4 +7,3 @@
     </method>
   </configuration>
 </component>
-
