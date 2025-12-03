@@ -1,5 +1,7 @@
 package com.ash7nly.shipment.Services;
 
+import com.ash7nly.common.exception.BadRequestException;
+import com.ash7nly.common.exception.NotFoundException;
 import com.ash7nly.shipment.DTOs.TrackShipmentDTO;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import com.ash7nly.shipment.Mapper.ShipmentMapper;
@@ -21,8 +23,7 @@ public class TrackingService {
     }
     public TrackShipmentDTO TrackingInfo(String trackingNumber){
         ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
-                .orElseThrow(()->new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
+                .orElseThrow(()->new NotFoundException(
                         "Tracking Code not found"));
             return trackingMapper.toDTO(shipment);
     }
