@@ -3,8 +3,11 @@ package com.ash7nly.shipment.Mapper;
 import com.ash7nly.common.enums.ShipmentStatus;
 import com.ash7nly.shipment.DTOs.CancelShipmentResponseDto;
 import com.ash7nly.shipment.DTOs.CreateShipmentDTO;
+import com.ash7nly.shipment.DTOs.UpdateShipmentDTO;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import org.springframework.stereotype.Component;
+
+import javax.xml.stream.events.DTD;
 
 @Component   // <<< ADD THIS
 public class ShipmentMapper {
@@ -31,7 +34,6 @@ public class ShipmentMapper {
 
         return shipment;
     }
-
     public static CancelShipmentResponseDto toCancelResponse(ShipmentEntity shipment) {
 
         CancelShipmentResponseDto dto = new CancelShipmentResponseDto();
@@ -40,5 +42,11 @@ public class ShipmentMapper {
         dto.setMessage("Shipment cancelled successfully");
 
         return dto;
+    }
+    public static UpdateShipmentDTO toUpdateShipment(ShipmentEntity shipment){
+            UpdateShipmentDTO updateShipmentDTO = new UpdateShipmentDTO();
+            updateShipmentDTO.setTrackingNumber(shipment.getTrackingNumber());
+            updateShipmentDTO.setStatus(shipment.getStatus());
+            return updateShipmentDTO;
     }
 }
