@@ -1,11 +1,13 @@
 package com.ash7nly.delivery;
 
+import com.ash7nly.common.response.ApiResponse;
 import com.ash7nly.delivery.Entity.Delivery;
 import com.ash7nly.delivery.Entity.Driver;
 import com.ash7nly.delivery.Services.DeliveryService;
-import com.ash7nly.delivery.repository.DeliveryRepository;
-import com.ash7nly.delivery.repository.DriverRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ash7nly.delivery.dto.CreateDeliveryRequest;
+import com.ash7nly.delivery.dto.DeliveryResponse;
+import com.ash7nly.delivery.mapper.DeliveryMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,22 @@ public class DeliveryController {
                 "service", "delivery-service",
                 "status", "UP"
         );
+    }
+
+    @PostMapping("/create")
+    public ApiResponse<DeliveryResponse> createDelivery(@RequestBody CreateDeliveryRequest request) {
+        try {
+            Delivery delivery = DeliveryMapper.toEntity(request);
+
+            Delivery savedDelivery = deliveryService.createDelivery(delivery);
+
+            DeliveryResponse response = DeliveryMapper.toResponse(savedDelivery);
+
+            return ApiResponse.success(response);
+
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to create delivery" + e.getMessage());
+        }
     }
 
 

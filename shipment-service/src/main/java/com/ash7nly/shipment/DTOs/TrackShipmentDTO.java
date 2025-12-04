@@ -1,5 +1,6 @@
 package com.ash7nly.shipment.DTOs;
 
+import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.ShipmentStatus;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import jakarta.persistence.EnumType;
@@ -11,7 +12,7 @@ public class TrackShipmentDTO {
 
     private String trackingNumber;
     private String pickupAdress;
-    private String deliveryAdress;
+    private DeliveryArea deliveryAdress;
     private Long merchantId;
 
     @Enumerated(EnumType.STRING)
@@ -48,11 +49,11 @@ public class TrackShipmentDTO {
         this.pickupAdress = pickupAdress;
     }
 
-    public String getDeliveryAdress() {
+    public DeliveryArea getDeliveryAdress() {
         return deliveryAdress;
     }
 
-    public void setDeliveryAdress(String deliveryAdress) {
+    public void setDeliveryAdress(DeliveryArea deliveryAdress) {
         this.deliveryAdress = deliveryAdress;
     }
 

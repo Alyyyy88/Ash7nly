@@ -2,17 +2,22 @@ package com.ash7nly.shipment.Services;
 
 import com.ash7nly.common.enums.ShipmentStatus;
 import com.ash7nly.common.exception.NotFoundException;
+import com.ash7nly.common.response.ApiResponse;
 import com.ash7nly.shipment.DTOs.*;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import com.ash7nly.shipment.Entity.TrackingHistoryEntity;
 import com.ash7nly.shipment.Mapper.ShipmentMapper;
 import com.ash7nly.shipment.Mapper.TrackingMapper;
 import com.ash7nly.shipment.Repository.ShipmentRepository;
+import com.ash7nly.shipment.client.DeliveryServiceClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.ash7nly.shipment.Repository.TrackingHistoryRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CRUDService {
@@ -21,11 +26,14 @@ public class CRUDService {
     private final ShipmentMapper shipmentMapper;
     private final TrackingMapper trackingMapper;
     private final TrackingHistoryRepository trackingHistoryRepository;
-    public CRUDService(ShipmentRepository shipmentRepository, TrackingMapper trackingMapper , ShipmentMapper shipmentMapper, TrackingHistoryRepository trackingHistoryRepository){
+    private final DeliveryServiceClient deliveryServiceClient;
+
+    public CRUDService(ShipmentRepository shipmentRepository, TrackingMapper trackingMapper , ShipmentMapper shipmentMapper, TrackingHistoryRepository trackingHistoryRepository, DeliveryServiceClient deliveryServiceClient){
         this.shipmentRepository =shipmentRepository;
         this.trackingMapper = trackingMapper;
         this.shipmentMapper = shipmentMapper;
         this.trackingHistoryRepository= trackingHistoryRepository;
+        this.deliveryServiceClient = deliveryServiceClient;
     }
     public TrackShipmentDTO TrackingInfo(String trackingNumber){
         ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
@@ -34,6 +42,7 @@ public class CRUDService {
             return trackingMapper.toDTO(shipment);
     }
 
+    @Transactional
     public ShipmentEntity createShipment(CreateShipmentDTO request, Long merchantId) {
         ShipmentEntity shipment = shipmentMapper.toEntity(request, merchantId);
         ShipmentEntity saved = shipmentRepository.save(shipment);
@@ -42,6 +51,19 @@ public class CRUDService {
         history.setShipmentEntity(shipment);
         history.setShipmentStatus(ShipmentStatus.CREATED);
         trackingHistoryRepository.save(history);
+
+        try {
+            CreateDeliveryRequest deliveryRequest = new CreateDeliveryRequest(
+                    saved.getShipmentId(),
+                    saved.getCustomerName()
+            );
+
+            ResponseEntity<ApiResponse<DeliveryResponse>> deliveryResponse = deliveryServiceClient.createDelivery(deliveryRequest);
+            System.out.println("Delivery created with ID: " + Objects.requireNonNull(deliveryResponse.getBody()).getData().getId());
+
+        } catch (Exception e) {
+            System.err.println("Failed to create delivery: " + e.getMessage());
+        }
 
         return saved ;
     }

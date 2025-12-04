@@ -1,5 +1,6 @@
 package com.ash7nly.shipment.Entity;
 
+import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.ShipmentStatus;
 import jakarta.persistence.*;
 
@@ -21,7 +22,7 @@ public class ShipmentEntity {
     @Column(nullable = false)
     private String pickupAdress;
 
-    private String deliveryAdress;
+    private DeliveryArea deliveryAdress;
     private String customerName;
     private String customerphone;
     private String packageWeight;
@@ -58,7 +59,7 @@ public class ShipmentEntity {
     public ShipmentEntity() {}
 
     public ShipmentEntity(long shipmentId, String trackingNumber, String pickupAdress,
-                          String deliveryAdress, String customerName, String customerphone,
+                          DeliveryArea deliveryAdress, String customerName, String customerphone,
                           String packageWeight, String packageDimension, Long merchantId,
                           String packageDescription, ShipmentStatus status, double cost,
                           boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,String cancellationReason, List<TrackingHistoryEntity> trackingHistory) {
@@ -123,11 +124,11 @@ public class ShipmentEntity {
         this.pickupAdress = pickupAdress;
     }
 
-    public String getDeliveryAdress() {
+    public DeliveryArea getDeliveryAdress() {
         return deliveryAdress;
     }
 
-    public void setDeliveryAdress(String deliveryAdress) {
+    public void setDeliveryAdress(DeliveryArea deliveryAdress) {
         this.deliveryAdress = deliveryAdress;
     }
 

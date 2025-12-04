@@ -1,6 +1,6 @@
 package com.ash7nly.common.enums;
 
-public enum DelivaryArea {
+public enum DeliveryArea {
     Helwan,
     Haram,
     Maadi,

@@ -1,10 +1,12 @@
 package com.ash7nly.shipment.DTOs;
 
+import com.ash7nly.common.enums.DeliveryArea;
+
 public class CreateShipmentDTO {
 
     private long merchantId;
     private String pickupAdress;
-    private String deliveryAdress;
+    private DeliveryArea deliveryAdress;
     private String customerName;
     private String customerPhone;
 
@@ -23,7 +25,7 @@ public class CreateShipmentDTO {
     public CreateShipmentDTO() {
     }
 
-    public CreateShipmentDTO(long merchantId, String pickupAdress, String deliveryAdress,
+    public CreateShipmentDTO(long merchantId, String pickupAdress, DeliveryArea deliveryAdress,
                              String customerName, String customerPhone,
                              String packageWeight, String packageDimension,
                              String packageDescription, double cost,String trackingNumber) {
@@ -59,11 +61,11 @@ public class CreateShipmentDTO {
         this.pickupAdress = pickupAdress;
     }
 
-    public String getDeliveryAdress() {
+    public DeliveryArea getDeliveryAdress() {
         return deliveryAdress;
     }
 
-    public void setDeliveryAdress(String deliveryAdress) {
+    public void setDeliveryAdress(DeliveryArea deliveryAdress) {
         this.deliveryAdress = deliveryAdress;
     }
 
@@ -134,7 +136,7 @@ public class CreateShipmentDTO {
     public static class Builder {
         private long merchantId;
         private String pickupAdress;
-        private String deliveryAdress;
+        private DeliveryArea deliveryAdress;
         private String customerName;
         private String customerPhone;
 
@@ -166,7 +168,7 @@ public class CreateShipmentDTO {
             return this;
         }
 
-        public Builder deliveryAdress(String deliveryAdress) {
+        public Builder deliveryAdress(DeliveryArea deliveryAdress) {
             this.deliveryAdress = deliveryAdress;
             return this;
         }
