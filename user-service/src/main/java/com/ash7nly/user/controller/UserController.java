@@ -1,7 +1,9 @@
 package com.ash7nly.user.controller;
 
 import com.ash7nly.common.dto.UserDto;
+import com.ash7nly.common.enums.UserRole;
 import com.ash7nly.common.response.ApiResponse;
+import com.ash7nly.common.security.RequiresRole;
 import com.ash7nly.common.security.UserContext;
 import com.ash7nly.user.dto.req.UserUpdateRequest;
 import com.ash7nly.user.service.UserService;
@@ -29,6 +31,7 @@ public class UserController {
         return ApiResponse.success(userService.updateUser(userId, request));
     }
 
+    @RequiresRole(UserRole.ADMIN)
     @GetMapping("/{id}")
     public ApiResponse<UserDto> getUserById(@PathVariable Long id) {
         return ApiResponse.success(userService.getUserById(id));
