@@ -1,8 +1,6 @@
 package com. ash7nly. delivery;
 
-import com.ash7nly.common.enums.UserRole;
 import com.ash7nly.common.response.ApiResponse;
-import com.ash7nly.common.security.RequiresRole;
 import com.ash7nly.delivery.Entity.Driver;
 import com.ash7nly.delivery.Services.DriverService;
 import com.ash7nly.delivery.dto.CreateDriverRequest;
@@ -10,7 +8,6 @@ import com.ash7nly.delivery.dto. DriverResponse;
 import com. ash7nly. delivery.dto.UpdateDriverRequest;
 import com.ash7nly.delivery.mapper.DriverMapper;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http. ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
