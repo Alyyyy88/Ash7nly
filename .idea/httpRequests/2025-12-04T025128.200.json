@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "userId": 100007811,
+    "vehicleType": "BIKE",
+    "vehicleNumber": "XYZ123",
+    "licenseNumber": "Test899",
+    "serviceArea": "West Zone",
+    "isAvailable": true,
+    "deliveriesCount": 0,
+    "createdAt": "2025-12-04 02:51:28"
+  },
+  {
+    "id": 2,
+    "userId": 100007811,
+    "vehicleType": "TRUCK",
+    "vehicleNumber": "XYZ123",
+    "licenseNumber": "Test899",
+    "serviceArea": "West Zone",
+    "isAvailable": true,
+    "deliveriesCount": 0,
+    "createdAt": "2025-12-04 02:51:28"
+  }
+]

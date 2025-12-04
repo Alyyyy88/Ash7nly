@@ -1,4 +1,4 @@
-package com.ash7nly.delivery.clients;
+package com.ash7nly.delivery.client;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
