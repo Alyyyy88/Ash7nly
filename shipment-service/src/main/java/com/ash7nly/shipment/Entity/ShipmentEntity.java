@@ -4,6 +4,8 @@ import com.ash7nly.common.enums.ShipmentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Shipment")
@@ -44,6 +46,11 @@ public class ShipmentEntity {
 
     private String cancellationReason;
 
+
+
+    @OneToMany(mappedBy = "shipmentEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrackingHistoryEntity> trackingHistory = new ArrayList<>();
+
     // -------------------------
     // Constructors
     // -------------------------
@@ -54,7 +61,7 @@ public class ShipmentEntity {
                           String deliveryAdress, String customerName, String customerphone,
                           String packageWeight, String packageDimension, Long merchantId,
                           String packageDescription, ShipmentStatus status, double cost,
-                          boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,String cancellationReason) {
+                          boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,String cancellationReason, List<TrackingHistoryEntity> trackingHistory) {
         this.shipmentId = shipmentId;
         this.trackingNumber = trackingNumber;
         this.pickupAdress = pickupAdress;
@@ -71,11 +78,20 @@ public class ShipmentEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.cancellationReason = cancellationReason;
+        this.trackingHistory= trackingHistory;
     }
 
     // -------------------------
     // Getters & Setters
     // -------------------------
+
+    public List<TrackingHistoryEntity> getTrackingHistory() {
+        return trackingHistory;
+    }
+
+    public void setTrackingHistory(List<TrackingHistoryEntity> trackingHistory) {
+        this.trackingHistory = trackingHistory;
+    }
     public String getCancellationReason() {
         return cancellationReason;
     }
