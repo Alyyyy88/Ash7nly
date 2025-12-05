@@ -3,23 +3,23 @@ package com.ash7nly.shipment.DTOs;
 import com.ash7nly.common.enums.ShipmentStatus;
 
 public class UpdateShipmentDTO {
-    private String trackingNumber;
+    private long shipmentID;
     private ShipmentStatus status;
 
-    public UpdateShipmentDTO(String trackingNumber, ShipmentStatus status) {
-        this.trackingNumber = trackingNumber;
+    public UpdateShipmentDTO(long shipmentID, ShipmentStatus status) {
+        this.shipmentID = shipmentID;
         this.status = status;
     }
 
     public UpdateShipmentDTO() {
     }
 
-    public String getTrackingNumber() {
-        return trackingNumber;
+    public long getShipmentID() {
+        return shipmentID;
     }
 
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public void setShipmentID(long shipmentID) {
+        this.shipmentID = shipmentID;
     }
 
     public ShipmentStatus getStatus() {

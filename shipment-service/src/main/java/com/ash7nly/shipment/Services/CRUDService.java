@@ -1,5 +1,6 @@
 package com.ash7nly.shipment.Services;
 
+import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.ShipmentStatus;
 import com.ash7nly.common.exception.NotFoundException;
 import com.ash7nly.common.response.ApiResponse;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CRUDService {
@@ -93,8 +95,8 @@ public class CRUDService {
         return ShipmentMapper.toCancelResponse(shipment);
     }
 
-    public UpdateShipmentDTO updateShipmentStatus(String trackingNumber, ShipmentStatus newStatus) {
-        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
+    public UpdateShipmentDTO updateShipmentStatus(long shipmentId, ShipmentStatus newStatus) {
+        ShipmentEntity shipment = shipmentRepository.findByShipmentId(shipmentId)
                 .orElseThrow(() -> new NotFoundException("Shipment not found"));
 
         shipment.setStatus(newStatus);
@@ -120,6 +122,21 @@ public class CRUDService {
                 .stream()
                 .map(trackingMapper::toDTO)
                 .toList();
+    }
+
+    public List<ShipmentListDTO> getShipmentsByServiceArea(DeliveryArea serviceArea) {
+        List<ShipmentEntity> shipments = shipmentRepository.findByDeliveryAdress(serviceArea);
+
+        return shipments.stream()
+                .map(shipmentMapper::toDTO)
+                .toList();
+    }
+
+
+    public ShipmentListDTO getShipmentById(long shipmentId){
+        ShipmentEntity shipments = shipmentRepository.findByShipmentId(shipmentId)
+                .orElseThrow(()-> new NotFoundException("Shipment not Found"));
+        return shipmentMapper.toDTO(shipments);
     }
 
 }

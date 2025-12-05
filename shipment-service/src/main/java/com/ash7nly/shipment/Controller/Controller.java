@@ -1,5 +1,6 @@
 package com.ash7nly.shipment.Controller;
 
+import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.UserRole;
 import com.ash7nly.common.response.ApiResponse;
 import com.ash7nly.common.security.RequiresRole;
@@ -10,6 +11,7 @@ import com.ash7nly.shipment.Services.CRUDService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/shipments")
@@ -23,7 +25,7 @@ public class Controller {
     public ApiResponse<UpdateShipmentDTO> updateStatus(
             @RequestBody UpdateShipmentDTO request
     ) {
-        return ApiResponse.success(CRUDService.updateShipmentStatus(request.getTrackingNumber(), request.getStatus()));
+        return ApiResponse.success(CRUDService.updateShipmentStatus(request.getShipmentID(), request.getStatus()));
     }
 
 
@@ -49,6 +51,16 @@ public class Controller {
     @GetMapping("/{trackingNumber}/history")
     public ApiResponse<List<TrackingHistoryDTO>> getTrackingHistory(@PathVariable String trackingNumber) {
         return ApiResponse.success(CRUDService.getTrackingHistory(trackingNumber));
+    }
+
+    @GetMapping("/area/{serviceArea}")
+    public ApiResponse<List<ShipmentListDTO>> getByServiceArea(@PathVariable DeliveryArea serviceArea) {
+        return ApiResponse.success(CRUDService.getShipmentsByServiceArea(serviceArea));
+    }
+
+    @GetMapping("/{shipmentId}")
+    public ApiResponse<ShipmentListDTO> getShipmentById(@PathVariable long shipmentId){
+        return ApiResponse.success(CRUDService.getShipmentById(shipmentId));
     }
 
 }

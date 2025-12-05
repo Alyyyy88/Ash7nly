@@ -3,6 +3,7 @@ package com.ash7nly.shipment.Mapper;
 import com.ash7nly.common.enums.ShipmentStatus;
 import com.ash7nly.shipment.DTOs.CancelShipmentResponseDto;
 import com.ash7nly.shipment.DTOs.CreateShipmentDTO;
+import com.ash7nly.shipment.DTOs.ShipmentListDTO;
 import com.ash7nly.shipment.DTOs.UpdateShipmentDTO;
 import com.ash7nly.shipment.Entity.ShipmentEntity;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,22 @@ public class ShipmentMapper {
 
         return shipment;
     }
+
+    public ShipmentListDTO toDTO(ShipmentEntity entity) {
+
+        ShipmentListDTO shipment = new ShipmentListDTO();
+        shipment.setMerchantId(entity.getMerchantId());
+        shipment.setPickupAdress(entity.getPickupAdress());
+        shipment.setDeliveryAdress(entity.getDeliveryAdress());
+        shipment.setCustomerName(entity.getCustomerName());
+        shipment.setCost(entity.getCost());
+        shipment.setStatus(entity.getStatus());
+        shipment.setTrackingNumber(trackingMapper.generateTrackingCode());
+        shipment.setActive(true);
+        shipment.setShipmentId(entity.getShipmentId());
+
+        return shipment;
+    }
     public static CancelShipmentResponseDto toCancelResponse(ShipmentEntity shipment) {
 
         CancelShipmentResponseDto dto = new CancelShipmentResponseDto();
@@ -45,7 +62,7 @@ public class ShipmentMapper {
     }
     public static UpdateShipmentDTO toUpdateShipment(ShipmentEntity shipment){
             UpdateShipmentDTO updateShipmentDTO = new UpdateShipmentDTO();
-            updateShipmentDTO.setTrackingNumber(shipment.getTrackingNumber());
+            updateShipmentDTO.setShipmentID(shipment.getShipmentId());
             updateShipmentDTO.setStatus(shipment.getStatus());
             return updateShipmentDTO;
     }

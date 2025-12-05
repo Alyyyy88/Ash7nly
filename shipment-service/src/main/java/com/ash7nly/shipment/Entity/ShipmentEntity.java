@@ -22,7 +22,9 @@ public class ShipmentEntity {
     @Column(nullable = false)
     private String pickupAdress;
 
+    @Enumerated(EnumType.STRING)
     private DeliveryArea deliveryAdress;
+
     private String customerName;
     private String customerphone;
     private String packageWeight;

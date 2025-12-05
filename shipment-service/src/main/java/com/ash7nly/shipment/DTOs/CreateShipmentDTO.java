@@ -1,6 +1,7 @@
 package com.ash7nly.shipment.DTOs;
 
 import com.ash7nly.common.enums.DeliveryArea;
+import com.ash7nly.common.enums.ShipmentStatus;
 
 public class CreateShipmentDTO {
 
@@ -16,6 +17,9 @@ public class CreateShipmentDTO {
 
     private double cost;
 
+    private ShipmentStatus status;
+    private boolean isActive;
+
     private String trackingNumber;
 
     // -------------------------
@@ -28,7 +32,7 @@ public class CreateShipmentDTO {
     public CreateShipmentDTO(long merchantId, String pickupAdress, DeliveryArea deliveryAdress,
                              String customerName, String customerPhone,
                              String packageWeight, String packageDimension,
-                             String packageDescription, double cost,String trackingNumber) {
+                             String packageDescription, double cost,String trackingNumber, boolean isActive , ShipmentStatus status) {
         this.merchantId = merchantId;
         this.pickupAdress = pickupAdress;
         this.deliveryAdress = deliveryAdress;
@@ -39,11 +43,30 @@ public class CreateShipmentDTO {
         this.packageDescription = packageDescription;
         this.cost = cost;
         this.trackingNumber = trackingNumber;
+        this.status =status;
+        this.isActive = isActive;
     }
 
     // -------------------------
     // Getters & Setters
     // -------------------------
+
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
 
     public long getMerchantId() {
         return merchantId;
@@ -143,12 +166,30 @@ public class CreateShipmentDTO {
         private String packageWeight;
         private String packageDimension;
         private String packageDescription;
-
+        private ShipmentStatus status;
+        private boolean isActive;
 
 
         private String trackingNumber;
 
         private double cost;
+
+
+        public boolean isActive() {
+            return isActive;
+        }
+
+        public void setActive(boolean active) {
+            isActive = active;
+        }
+
+        public ShipmentStatus getStatus() {
+            return status;
+        }
+
+        public void setStatus(ShipmentStatus status) {
+            this.status = status;
+        }
 
         public String getTrackingNumber() {
             return trackingNumber;
@@ -208,7 +249,7 @@ public class CreateShipmentDTO {
                     merchantId, pickupAdress, deliveryAdress,
                     customerName, customerPhone,
                     packageWeight, packageDimension, packageDescription,
-                    cost,trackingNumber
+                    cost,trackingNumber,isActive,status
             );
         }
     }
