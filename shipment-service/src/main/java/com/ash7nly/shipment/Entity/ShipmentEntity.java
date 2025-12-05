@@ -3,6 +3,7 @@ package com.ash7nly.shipment.Entity;
 import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.ShipmentStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,16 @@ public class ShipmentEntity {
     private String customerphone;
     private String packageWeight;
     private String packageDimension;
+    @Email
+    private String customerEmail;
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
 
     @Column(nullable = false)
     private Long merchantId;
@@ -61,7 +72,7 @@ public class ShipmentEntity {
     public ShipmentEntity() {}
 
     public ShipmentEntity(long shipmentId, String trackingNumber, String pickupAdress,
-                          DeliveryArea deliveryAdress, String customerName, String customerphone,
+                          DeliveryArea deliveryAdress, String customerName, String customerphone,String customerEmail,
                           String packageWeight, String packageDimension, Long merchantId,
                           String packageDescription, ShipmentStatus status, double cost,
                           boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,String cancellationReason, List<TrackingHistoryEntity> trackingHistory) {
@@ -70,6 +81,7 @@ public class ShipmentEntity {
         this.pickupAdress = pickupAdress;
         this.deliveryAdress = deliveryAdress;
         this.customerName = customerName;
+        this.customerEmail = customerEmail;
         this.customerphone = customerphone;
         this.packageWeight = packageWeight;
         this.packageDimension = packageDimension;

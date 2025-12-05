@@ -2,6 +2,7 @@ package com.ash7nly.shipment.DTOs;
 
 import com.ash7nly.common.enums.DeliveryArea;
 import com.ash7nly.common.enums.ShipmentStatus;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 
 public class CreateShipmentDTO {
 
@@ -10,7 +11,7 @@ public class CreateShipmentDTO {
     private DeliveryArea deliveryAdress;
     private String customerName;
     private String customerPhone;
-
+    private String customerEmail;
     private String packageWeight;
     private String packageDimension;
     private String packageDescription;
@@ -30,7 +31,7 @@ public class CreateShipmentDTO {
     }
 
     public CreateShipmentDTO(long merchantId, String pickupAdress, DeliveryArea deliveryAdress,
-                             String customerName, String customerPhone,
+                             String customerName, String customerPhone,String customerEmail,
                              String packageWeight, String packageDimension,
                              String packageDescription, double cost,String trackingNumber, boolean isActive , ShipmentStatus status) {
         this.merchantId = merchantId;
@@ -38,6 +39,7 @@ public class CreateShipmentDTO {
         this.deliveryAdress = deliveryAdress;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
+        this.customerEmail = customerEmail;
         this.packageWeight = packageWeight;
         this.packageDimension = packageDimension;
         this.packageDescription = packageDescription;
@@ -67,6 +69,13 @@ public class CreateShipmentDTO {
         isActive = active;
     }
 
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
 
     public long getMerchantId() {
         return merchantId;
@@ -162,7 +171,7 @@ public class CreateShipmentDTO {
         private DeliveryArea deliveryAdress;
         private String customerName;
         private String customerPhone;
-
+        private String customerEmail;
         private String packageWeight;
         private String packageDimension;
         private String packageDescription;
@@ -247,7 +256,7 @@ public class CreateShipmentDTO {
         public CreateShipmentDTO build() {
             return new CreateShipmentDTO(
                     merchantId, pickupAdress, deliveryAdress,
-                    customerName, customerPhone,
+                    customerName, customerPhone,customerEmail,
                     packageWeight, packageDimension, packageDescription,
                     cost,trackingNumber,isActive,status
             );

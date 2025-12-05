@@ -25,6 +25,7 @@ public class ShipmentMapper {
         shipment.setDeliveryAdress(request.getDeliveryAdress());
         shipment.setCustomerName(request.getCustomerName());
         shipment.setCustomerphone(request.getCustomerPhone());
+        shipment.setCustomerEmail(request.getCustomerEmail());
         shipment.setPackageWeight(request.getPackageWeight());
         shipment.setPackageDimension(request.getPackageDimension());
         shipment.setPackageDescription(request.getPackageDescription());
@@ -43,6 +44,7 @@ public class ShipmentMapper {
         shipment.setPickupAdress(entity.getPickupAdress());
         shipment.setDeliveryAdress(entity.getDeliveryAdress());
         shipment.setCustomerName(entity.getCustomerName());
+        shipment.setCustomerEmail(entity.getCustomerEmail());
         shipment.setCost(entity.getCost());
         shipment.setStatus(entity.getStatus());
         shipment.setTrackingNumber(trackingMapper.generateTrackingCode());

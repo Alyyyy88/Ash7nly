@@ -10,6 +10,7 @@ public class ShipmentListDTO {
     private String trackingNumber;
     private DeliveryArea deliveryAdress;
     private ShipmentStatus status;
+    private String customerEmail;
     private boolean active;
     private LocalDateTime createdAt;
     private long merchantId;
@@ -17,13 +18,14 @@ public class ShipmentListDTO {
     private String customerName;
     private double cost;
 
-    public ShipmentListDTO(String trackingNumber, String customerName, String pickupAdress, long merchantId, LocalDateTime createdAt, ShipmentStatus status, boolean active, DeliveryArea deliveryAdress,double cost, long shipmentId) {
+    public ShipmentListDTO(String trackingNumber, String customerName, String pickupAdress, long merchantId, LocalDateTime createdAt, ShipmentStatus status,String customerEmail, boolean active, DeliveryArea deliveryAdress,double cost, long shipmentId) {
         this.trackingNumber = trackingNumber;
         this.customerName = customerName;
         this.pickupAdress = pickupAdress;
         this.merchantId = merchantId;
         this.createdAt = createdAt;
         this.status = status;
+        this.customerEmail = customerEmail;
         this.active = active;
         this.deliveryAdress = deliveryAdress;
         this.cost = cost;
@@ -31,6 +33,14 @@ public class ShipmentListDTO {
     }
 
     public ShipmentListDTO() {
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public String getTrackingNumber() {

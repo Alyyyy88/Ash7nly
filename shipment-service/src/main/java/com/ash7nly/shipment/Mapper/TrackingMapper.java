@@ -31,6 +31,10 @@ public class TrackingMapper {
 
 
     public String generateTrackingCode() {
-        return UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();
+        String uniqueBase = uuid.replace("-", "").toUpperCase(); // 32 chars
+        String uniqueCode = uniqueBase.substring(0, 12);
+
+        return "TRK" + uniqueCode;
     }
 }
