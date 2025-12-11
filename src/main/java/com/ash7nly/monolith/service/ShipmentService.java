@@ -1,109 +1,122 @@
 package com.ash7nly.monolith.service;
 
-import com.ash7nly.monolith.dto.request.CancelShipmentRequest;
-import com.ash7nly.monolith.dto.request.CreateShipmentRequest;
-import com.ash7nly.monolith.dto.response.CancelShipmentResponse;
-import com.ash7nly.monolith.dto.response.ShipmentResponse;
-import com.ash7nly.monolith.entity.Shipment;
-import com.ash7nly.monolith.entity.User;
+import com.ash7nly.monolith.dto.request.*;
+import com.ash7nly.monolith.dto.response.CancelShipmentResponseDto;
+import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.ShipmentStatus;
-import com.ash7nly.monolith.exception.BadRequestException;
-import com.ash7nly.monolith.exception.ForbiddenException;
 import com.ash7nly.monolith.exception.NotFoundException;
-import com.ash7nly.monolith.mapper.ShipmentMapper;
-import com.ash7nly.monolith.repository.ShipmentRepository;
-import com.ash7nly.monolith.repository.UserRepository;
-import com.ash7nly.monolith.security.CurrentUserService;
+import com.ash7nly.monolith.entity.*;
+import com.ash7nly.monolith.mapper.*;
+import com.ash7nly.monolith.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
-    private final UserRepository userRepository;
     private final ShipmentMapper shipmentMapper;
-    private final CurrentUserService currentUserService;
+    private final TrackingMapper trackingMapper;
+    private final TrackingHistoryRepository trackingHistoryRepository;
 
-    public ShipmentService(ShipmentRepository shipmentRepository, UserRepository userRepository,
-                           ShipmentMapper shipmentMapper, CurrentUserService currentUserService) {
-        this.shipmentRepository = shipmentRepository;
-        this.userRepository = userRepository;
+
+    public ShipmentService  (ShipmentRepository shipmentRepository, TrackingMapper trackingMapper , ShipmentMapper shipmentMapper, TrackingHistoryRepository trackingHistoryRepository){
+        this.shipmentRepository =shipmentRepository;
+        this.trackingMapper = trackingMapper;
         this.shipmentMapper = shipmentMapper;
-        this.currentUserService = currentUserService;
+        this.trackingHistoryRepository= trackingHistoryRepository;
+
+    }
+    public TrackShipmentDTO TrackingInfo(String trackingNumber){
+        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
+                .orElseThrow(()->new NotFoundException(
+                        "Tracking Code not found"));
+        return trackingMapper.toDTO(shipment);
     }
 
     @Transactional
-    public ShipmentResponse createShipment(CreateShipmentRequest request) {
-        if (!currentUserService.isMerchant()) {
-            throw new ForbiddenException("Only merchants can create shipments");
-        }
+    public ShipmentEntity createShipment(CreateShipmentDTO request, Long merchantId) {
+        ShipmentEntity shipment = shipmentMapper.toEntity(request, merchantId);
+        ShipmentEntity saved = shipmentRepository.save(shipment);
 
-        Long merchantId = currentUserService.getCurrentUserId();
-        User merchant = userRepository.findById(merchantId)
-                .orElseThrow(() -> new NotFoundException("Merchant not found"));
+        TrackingHistoryEntity history = new TrackingHistoryEntity();
+        history.setShipmentEntity(shipment);
+        history.setShipmentStatus(ShipmentStatus.CREATED);
+        trackingHistoryRepository.save(history);
 
-        Shipment shipment = shipmentMapper.toEntity(request, merchant);
-        shipment = shipmentRepository.save(shipment);
 
-        return shipmentMapper.toResponse(shipment);
+        return saved ;
     }
 
-    public ShipmentResponse trackShipment(String trackingNumber) {
-        Shipment shipment = shipmentRepository.findByTrackingNumber(trackingNumber)
-                .orElseThrow(() -> new NotFoundException("Shipment not found with tracking number: " + trackingNumber));
 
-        return shipmentMapper.toResponse(shipment);
-    }
+    public CancelShipmentResponseDto cancelShipment(CancelShipmentRequestDto request) {
+        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(request.getTrackingNumber())
+                .orElseThrow(() -> new NotFoundException(
+                        "ShipmentEntity Not found"));
 
-    @Transactional
-    public CancelShipmentResponse cancelShipment(CancelShipmentRequest request) {
-        Shipment shipment = shipmentRepository.findByTrackingNumber(request.getTrackingNumber())
-                .orElseThrow(() -> new NotFoundException("Shipment not found"));
-
-        // Check ownership if not admin
-        if (!currentUserService.isAdmin()) {
-            Long currentUserId = currentUserService.getCurrentUserId();
-            if (shipment.getMerchant() == null || !shipment.getMerchant().getId().equals(currentUserId)) {
-                throw new ForbiddenException("You can only cancel your own shipments");
-            }
-        }
-
-        // Check that shipment is eligible for cancellation
         if (shipment.getStatus() != ShipmentStatus.ASSIGNED &&
                 shipment.getStatus() != ShipmentStatus.CREATED) {
-            throw new BadRequestException("Shipment cannot be cancelled after pickup");
+            throw new RuntimeException("ShipmentEntity cannot be cancelled after pickup");
         }
 
         shipment.setStatus(ShipmentStatus.CANCELLED);
         shipment.setCancellationReason(request.getCancellationReason());
         shipment.setActive(false);
-
         shipmentRepository.save(shipment);
 
-        return shipmentMapper.toCancelResponse(shipment);
+
+        TrackingHistoryEntity history = new TrackingHistoryEntity();
+        history.setShipmentEntity(shipment);
+        history.setShipmentStatus(ShipmentStatus.CANCELLED);
+        trackingHistoryRepository.save(history);
+
+        return ShipmentMapper.toCancelResponse(shipment);
     }
 
-    public List<ShipmentResponse> getMyShipments() {
-        Long merchantId = currentUserService.getCurrentUserId();
-        List<Shipment> shipments = shipmentRepository.findByMerchantId(merchantId);
+    public UpdateShipmentDTO updateShipmentStatus(long shipmentId, ShipmentStatus newStatus) {
+        ShipmentEntity shipment = shipmentRepository.findByShipmentId(shipmentId)
+                .orElseThrow(() -> new NotFoundException("ShipmentEntity not found"));
+
+        shipment.setStatus(newStatus);
+        shipment.setUpdatedAt(LocalDateTime.now());
+        ShipmentEntity savedShipment = shipmentRepository.save(shipment);
+
+        // Save Tracking History
+        TrackingHistoryEntity history = new TrackingHistoryEntity();
+        history.setShipmentEntity(shipment); // <<< Foreign Key
+        history.setShipmentStatus(newStatus);
+        trackingHistoryRepository.save(history);
+
+        return ShipmentMapper.toUpdateShipment(savedShipment);
+
+    }
+
+    public List<TrackingHistoryDTO> getTrackingHistory(String trackingNumber) {
+
+        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
+                .orElseThrow(() -> new NotFoundException("ShipmentEntity not found"));
+
+        return trackingHistoryRepository.findByShipmentEntityOrderByTimestampAsc(shipment)
+                .stream()
+                .map(trackingMapper::toDTO)
+                .toList();
+    }
+
+    public List<ShipmentListDTO> getShipmentsByServiceArea(DeliveryArea serviceArea) {
+        List<ShipmentEntity> shipments = shipmentRepository.findByDeliveryAdress(serviceArea);
+
         return shipments.stream()
-                .map(shipmentMapper::toResponse)
-                .collect(Collectors.toList());
+                .map(shipmentMapper::toDTO)
+                .toList();
     }
 
-    @Transactional
-    public ShipmentResponse updateShipmentStatus(Long shipmentId, ShipmentStatus status) {
-        Shipment shipment = shipmentRepository.findById(shipmentId)
-                .orElseThrow(() -> new NotFoundException("Shipment not found"));
 
-        shipment.setStatus(status);
-        shipment = shipmentRepository.save(shipment);
-
-        return shipmentMapper.toResponse(shipment);
+    public ShipmentListDTO getShipmentById(long shipmentId){
+        ShipmentEntity shipments = shipmentRepository.findByShipmentId(shipmentId)
+                .orElseThrow(()-> new NotFoundException("ShipmentEntity not Found"));
+        return shipmentMapper.toDTO(shipments);
     }
+
 }
-

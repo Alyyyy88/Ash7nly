@@ -27,7 +27,7 @@ public class Delivery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id")
-    private Shipment shipment;
+    private ShipmentEntity shipmentEntity;
 
     // Constructors
     public Delivery() {
@@ -98,12 +98,12 @@ public class Delivery {
         this.driver = driver;
     }
 
-    public Shipment getShipment() {
-        return shipment;
+    public ShipmentEntity getShipment() {
+        return shipmentEntity;
     }
 
-    public void setShipment(Shipment shipment) {
-        this.shipment = shipment;
+    public void setShipment(ShipmentEntity shipmentEntity) {
+        this.shipmentEntity = shipmentEntity;
     }
 }
 
