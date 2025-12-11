@@ -20,6 +20,46 @@ public class DeliveryMapper {
         response.setPickedUpAt(delivery.getPickedUpAt());
         response.setRecipientName(delivery.getRecipientName());
         response.setDeliveryNotes(delivery.getDeliveryNotes());
+        response.setPickedUpAt(delivery.getPickedUpAt());
+        response.setDeliveredAt(delivery.getDeliveredAt());
+        response.setDeliveryNotes(delivery.getDeliveryNotes());
+        response.setShipmentStatus(
+                delivery.getShipment() != null ? delivery.getShipment().getStatus().toString() : null
+        );
+        return response;
+    }
+
+    public DeliveryResponse buildDeliveryResponse(Delivery delivery) {
+        DeliveryResponse response = new DeliveryResponse();
+
+        // Basic delivery info
+        response.setId(delivery.getId());
+
+        // Shipment info
+        if (delivery.getShipment() != null) {
+            response. setShipmentId(delivery. getShipment().getId());
+            response.setTrackingNumber(delivery.getShipment().getTrackingNumber());
+            response.setShipmentStatus(delivery.getShipment().getStatus().toString());
+        }
+
+        // Driver info
+        if (delivery.getDriver() != null) {
+            response.setDriverId(delivery.getDriver().getId());
+            if (delivery.getDriver().getUser() != null) {
+                response.setDriverName(delivery.getDriver().getUser().getFullName());
+            }
+        }
+
+        // Timestamps
+        response.setAssignedAt(delivery.getAssignedAt());
+        response.setAcceptedAt(delivery.getAcceptedAt());
+        response.setPickedUpAt(delivery. getPickedUpAt());
+        response.setDeliveredAt(delivery.getDeliveredAt());
+
+        // Delivery details
+        response.setRecipientName(delivery.getRecipientName());
+        response.setDeliveryNotes(delivery.getDeliveryNotes());
+
         return response;
     }
 }

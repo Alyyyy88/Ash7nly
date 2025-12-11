@@ -32,6 +32,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/shipments/tracking/**").permitAll()
+                        .requestMatchers("/api/drivers/register").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/health").permitAll()

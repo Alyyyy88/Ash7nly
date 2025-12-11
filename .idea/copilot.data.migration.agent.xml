@@ -5,7 +5,9 @@
     <option name="pendingSessionIds">
       <option value="3e476afe-dfe0-46ee-b2f6-c35eafb0a873" />
       <option value="4f804507-47fe-40f3-a478-8f40f5f59693" />
+      <option value="867f0937-4048-4cd6-9cb9-8fabaacb53b2" />
       <option value="f0162733-cc03-4d4d-ad1b-c9ed394d0c8f" />
+      <option value="f8d6c62b-dbb3-4f6f-8071-9f4269346208" />
     </option>
     <option name="pendingTurns">
       <map>
@@ -17,10 +19,28 @@
             </set>
           </value>
         </entry>
+        <entry key="867f0937-4048-4cd6-9cb9-8fabaacb53b2">
+          <value>
+            <set>
+              <option value="3f9c52ee-aff6-41eb-a5dd-9868e3531867" />
+              <option value="6771299b-a052-40f3-9ab3-ec6b07c0f2ce" />
+              <option value="f06deb9f-af9e-4a79-9750-1be5763a2975" />
+              <option value="d2415559-5afc-4385-87e7-f5563ce52316" />
+              <option value="a03aa405-f39f-4031-95f5-5eed1aefa588" />
+            </set>
+          </value>
+        </entry>
       </map>
     </option>
     <pendingWorkingSetItems>
       <entry key="4f804507-47fe-40f3-a478-8f40f5f59693" />
+      <entry key="867f0937-4048-4cd6-9cb9-8fabaacb53b2">
+        <set>
+          <option value="file://$PROJECT_DIR$/src/main/resources/application.yml" />
+          <option value="file://$PROJECT_DIR$/src/main/java/com/ash7nly/monolith/service/EmailService.java" />
+          <option value="file://$PROJECT_DIR$/src/main/java/com/ash7nly/monolith/service/NotificationService.java" />
+        </set>
+      </entry>
     </pendingWorkingSetItems>
   </component>
 </project>

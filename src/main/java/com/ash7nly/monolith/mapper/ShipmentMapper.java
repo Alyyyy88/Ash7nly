@@ -25,7 +25,7 @@ public class ShipmentMapper {
         shipment.setPackageDescription(request.getPackageDescription());
         shipment.setCost(request.getCost());
         shipment.setStatus(ShipmentStatus.CREATED);
-        shipment.setTrackingNumber(generateTrackingNumber());
+        shipment.setTrackingNumber(generateTrackingCode());
         shipment.setActive(true);
         return shipment;
     }
@@ -59,8 +59,12 @@ public class ShipmentMapper {
         );
     }
 
-    private String generateTrackingNumber() {
-        return UUID.randomUUID().toString();
+    public String generateTrackingCode() {
+        String uuid = UUID.randomUUID().toString();
+        String uniqueBase = uuid.replace("-", "").toUpperCase(); // 32 chars
+        String uniqueCode = uniqueBase.substring(0, 12);
+
+        return "TRK" + uniqueCode;
     }
 }
 

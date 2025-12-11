@@ -23,7 +23,7 @@ public class ShipmentController {
     }
 
     @PreAuthorize("hasAuthority('MERCHANT')")
-    @PostMapping
+    @PostMapping("/create")
     public ApiResponse<ShipmentResponse> createShipment(@Valid @RequestBody CreateShipmentRequest request) {
         return ApiResponse.success(shipmentService.createShipment(request), "Shipment created successfully");
     }

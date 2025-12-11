@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Update - {{trackingNumber}}</title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1A202C;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #F3F4F6;
+            padding: 0;
+        }
+        .email-container {
+            background-color: #ffffff;
+            overflow: hidden;
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        /* DYNAMIC HEADER COLORS BASED ON STATUS */
+        .header {
+            padding: 40px 24px;
+            text-align: center;
+            color: white;
+            background-color: #EF4444;
+        }
+
+        /* Thymeleaf logic */
+        .header-DELIVERED { background-color: #22C55E; } /* Green */
+        .header-IN_TRANSIT { background-color: #3B82F6; } /* Blue */
+        .header-PICKED_UP { background-color: #6366F1; } /* Indigo */
+        .header-FAILED { background-color: #F59E0B; } /* Amber */
+        .header-CANCELLED { background-color: #64748B; } /* Slate */
+        .status-icon-box {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+        .content {
+            padding: 40px 32px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1A202C;
+            font-weight: 600;
+        }
+        .update-message {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 24px;
+        }
+        .tracking-box {
+            background-color: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        .tracking-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A202C;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 4px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+        }
+        .detail-label { color: #64748B; font-weight: 500; }
+        .detail-value { color: #1A202C; font-weight: 600; }
+        .track-button {
+            display: block;
+            background-color: #1A202C; /* Dark for contrast */
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            margin: 32px auto;
+            transition: transform 0.2s;
+        }
+        .footer {
+            background-color: #F8FAFC;
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid #E2E8F0;
+            font-size: 12px;
+            color: #94A3B8;
+        }
+        .footer a { color: #EF4444; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="email-container">
+
+    <!-- HEADER: Dynamic Background Color based on Status -->
+    <div class="header"
+         th:classappend="${status == 'DELIVERED' ? 'header-DELIVERED' :
+                          (status == 'IN_TRANSIT' ? 'header-IN_TRANSIT' :
+                          (status == 'PICKED_UP' ? 'header-PICKED_UP' :
+                          (status == 'FAILED' ? 'header-FAILED' :
+                          (status == 'CANCELLED' ? 'header-CANCELLED' : ''))))}">
+
+        <div class="status-icon-box">
+            <!-- Icons switch based on status -->
+            <svg th:if="${status == 'DELIVERED'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <svg th:if="${status == 'IN_TRANSIT'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            <svg th:if="${status == 'PICKED_UP'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <svg th:if="${status == 'FAILED'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <svg th:if="${status == 'CANCELLED'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+
+            <!-- Default Icon for CREATED/ASSIGNED -->
+            <svg th:if="${status == 'CREATED' || status == 'ASSIGNED'}" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+
+        <!-- Dynamic Headline -->
+        <h1 th:switch="${status}">
+            <span th:case="'CREATED'">Shipment Created</span>
+            <span th:case="'ASSIGNED'">Driver Assigned</span>
+            <span th:case="'PICKED_UP'">Package Picked Up</span>
+            <span th:case="'IN_TRANSIT'">On The Way</span>
+            <span th:case="'DELIVERED'">Delivered!</span>
+            <span th:case="'FAILED'">Delivery Attempt Failed</span>
+            <span th:case="'CANCELLED'">Shipment Cancelled</span>
+            <span th:case="*">Status Update</span>
+        </h1>
+    </div>
+    <!-- Content -->
+    <div class="content">
+        <div class="greeting">
+            Hello <strong th:text="${customerName}"></strong>,
+        </div>
+        <!-- Dynamic Body Text -->
+        <div class="update-message" th:switch="${status}">
+            <p th:case="'CREATED'">Your shipment has been successfully registered. We are currently looking for a driver.</p>
+            <p th:case="'ASSIGNED'">Good news! A driver has been assigned to your shipment and is on their way to the pickup location.</p>
+            <p th:case="'PICKED_UP'">We have collected your package. It is now making its way to the destination.</p>
+            <p th:case="'IN_TRANSIT'">Your package is currently in transit. It's getting closer!</p>
+            <p th:case="'DELIVERED'">Your package has been successfully delivered. Thank you for choosing ShipTrack.</p>
+            <p th:case="'FAILED'">We attempted to deliver your package but were unsuccessful. We will try again shortly.</p>
+            <p th:case="'CANCELLED'">This shipment has been cancelled. Please contact support if this is an error.</p>
+        </div>
+        <div class="tracking-box">
+            <span style="font-size: 11px; text-transform: uppercase; color: #64748B; font-weight: 700;">Tracking Number</span>
+            <span class="tracking-number" th:text="${trackingNumber}"></span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Last Updated</span>
+            <span class="detail-value" th:text="${updatedAt}">Just now</span>
+        </div>
+
+        <!-- Only show Driver info if Assigned or later (and not Cancelled) -->
+        <div class="detail-row" th:if="${status != 'CREATED' && status != 'CANCELLED' && driverName != null}">
+            <span class="detail-label">Driver</span>
+            <span class="detail-value" th:text="${driverName}"></span>
+        </div>
+        <!-- Track Button -->
+        <a th:href="@{'https://tracking.shiptrack.com/' + ${trackingNumber}}" class="track-button">
+            Track Real-Time Status
+        </a>
+        <div style="text-align: center; margin-top: 20px;" th:if="${status == 'DELIVERED'}">
+            <p style="font-size: 14px; color: #64748B;">How was your experience?</p>
+            <a href="#" style="color: #EF4444; font-weight: 600; font-size: 14px;">Rate your Driver</a>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p style="margin-bottom: 10px;">
+            <a href="#">Help Center
+
+            </a> • <a href="#">Contact Support</a>
+        </p>
+        <p>© 2025 ShipTrack. All rights reserved.</p>
+    </div>
+
+</div>
+</body>
+</html>

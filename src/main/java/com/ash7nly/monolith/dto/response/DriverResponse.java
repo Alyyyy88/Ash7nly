@@ -1,23 +1,36 @@
 package com.ash7nly.monolith.dto.response;
 
-import com.ash7nly.monolith.enums.VehicleType;
-
-import java.time.LocalDateTime;
-
 public class DriverResponse {
     private Long id;
     private Long userId;
-    private VehicleType vehicleType;
+    private String username;
+    private String fullName;
+    private String email;
+    private String vehicleType;
     private String vehicleNumber;
     private String licenseNumber;
     private String serviceArea;
-    private Boolean isAvailable;
-    private Integer deliveriesCount;
-    private LocalDateTime createdAt;
+    private boolean isAvailable;
 
     public DriverResponse() {
     }
 
+    public DriverResponse(Long id, Long userId, String username, String fullName, String email,
+                          String vehicleType, String vehicleNumber, String licenseNumber,
+                          String serviceArea, boolean isAvailable) {
+        this.id = id;
+        this.userId = userId;
+        this.username = username;
+        this.fullName = fullName;
+        this.email = email;
+        this.vehicleType = vehicleType;
+        this.vehicleNumber = vehicleNumber;
+        this.licenseNumber = licenseNumber;
+        this.serviceArea = serviceArea;
+        this.isAvailable = isAvailable;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -34,11 +47,35 @@ public class DriverResponse {
         this.userId = userId;
     }
 
-    public VehicleType getVehicleType() {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getVehicleType() {
         return vehicleType;
     }
 
-    public void setVehicleType(VehicleType vehicleType) {
+    public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
     }
 
@@ -66,28 +103,11 @@ public class DriverResponse {
         this.serviceArea = serviceArea;
     }
 
-    public Boolean getIsAvailable() {
+    public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setIsAvailable(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
-    public Integer getDeliveriesCount() {
-        return deliveriesCount;
-    }
-
-    public void setDeliveriesCount(Integer deliveriesCount) {
-        this.deliveriesCount = deliveriesCount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }
-

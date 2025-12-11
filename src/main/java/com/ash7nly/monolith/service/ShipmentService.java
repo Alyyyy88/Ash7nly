@@ -4,6 +4,7 @@ import com.ash7nly.monolith.dto.request.CancelShipmentRequest;
 import com.ash7nly.monolith.dto.request.CreateShipmentRequest;
 import com.ash7nly.monolith.dto.response.CancelShipmentResponse;
 import com.ash7nly.monolith.dto.response.ShipmentResponse;
+import com.ash7nly.monolith.entity.Delivery;
 import com.ash7nly.monolith.entity.Shipment;
 import com.ash7nly.monolith.entity.User;
 import com.ash7nly.monolith.enums.ShipmentStatus;
@@ -11,9 +12,11 @@ import com.ash7nly.monolith.exception.BadRequestException;
 import com.ash7nly.monolith.exception.ForbiddenException;
 import com.ash7nly.monolith.exception.NotFoundException;
 import com.ash7nly.monolith.mapper.ShipmentMapper;
+import com.ash7nly.monolith.repository.DeliveryRepository;
 import com.ash7nly.monolith.repository.ShipmentRepository;
 import com.ash7nly.monolith.repository.UserRepository;
 import com.ash7nly.monolith.security.CurrentUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +31,21 @@ public class ShipmentService {
     private final ShipmentMapper shipmentMapper;
     private final CurrentUserService currentUserService;
 
-    public ShipmentService(ShipmentRepository shipmentRepository, UserRepository userRepository,
-                           ShipmentMapper shipmentMapper, CurrentUserService currentUserService) {
+    private final DeliveryRepository deliveryRepository;
+    private final NotificationService notificationService;
+
+
+    public ShipmentService(ShipmentRepository shipmentRepository,
+                           UserRepository userRepository,
+                           ShipmentMapper shipmentMapper,
+                           CurrentUserService currentUserService,
+                           DeliveryRepository deliveryRepository, NotificationService notificationService) {
         this.shipmentRepository = shipmentRepository;
         this.userRepository = userRepository;
         this.shipmentMapper = shipmentMapper;
         this.currentUserService = currentUserService;
+        this.deliveryRepository = deliveryRepository;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -47,7 +59,25 @@ public class ShipmentService {
                 .orElseThrow(() -> new NotFoundException("Merchant not found"));
 
         Shipment shipment = shipmentMapper.toEntity(request, merchant);
+        Delivery delivery = new Delivery();
+        delivery.setShipment(shipment);
+        delivery.setRecipientName(shipment.getCustomerName());
+        deliveryRepository.save(delivery);
         shipment = shipmentRepository.save(shipment);
+
+        System.out.println("Attempting to send shipment created notification email for shipment: " + shipment.getTrackingNumber());
+
+        try {
+
+            notificationService.sendShipmentCreatedNotification(
+                    shipment,
+                    "test@gmail.com"
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to send email: " + e.getMessage());
+            // log for debuging
+
+        }
 
         return shipmentMapper.toResponse(shipment);
     }
