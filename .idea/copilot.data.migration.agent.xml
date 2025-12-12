@@ -12,6 +12,13 @@
     </option>
     <option name="pendingTurns">
       <map>
+        <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35">
+          <value>
+            <set>
+              <option value="33bd9841-edf3-4930-9427-377fca3178e7" />
+            </set>
+          </value>
+        </entry>
         <entry key="4f804507-47fe-40f3-a478-8f40f5f59693">
           <value>
             <set>
@@ -35,6 +42,11 @@
       </map>
     </option>
     <pendingWorkingSetItems>
+      <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35">
+        <set>
+          <option value="file://$PROJECT_DIR$/src/main/java/com/ash7nly/monolith/service/ShipmentService.java" />
+        </set>
+      </entry>
       <entry key="4f804507-47fe-40f3-a478-8f40f5f59693" />
       <entry key="867f0937-4048-4cd6-9cb9-8fabaacb53b2" />
     </pendingWorkingSetItems>

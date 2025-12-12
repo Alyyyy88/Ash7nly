@@ -78,6 +78,11 @@ public class ShipmentMapper {
             case FISAL -> createShipmentDTO.getCost() + 40;
             case HARAM -> createShipmentDTO.getCost() + 50;
             case MAADI -> createShipmentDTO.getCost() + 60;
+            case DOKKI -> createShipmentDTO.getCost() + 70;
+            case ZAMALEK -> createShipmentDTO.getCost() + 80;
+            case IMBABA -> createShipmentDTO.getCost() + 120;
+            case ROD_ELFARAG -> createShipmentDTO.getCost() + 90;
+            case NASR_CITY -> createShipmentDTO.getCost() + 100;
         };
     }
 }

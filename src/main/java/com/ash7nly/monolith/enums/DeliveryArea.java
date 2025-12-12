@@ -4,5 +4,10 @@ public enum DeliveryArea {
     HELWAN,
     HARAM,
     MAADI,
-    FISAL
+    FISAL,
+    IMBABA,
+    DOKKI,
+    ZAMALEK,
+    ROD_ELFARAG,
+    NASR_CITY
 }

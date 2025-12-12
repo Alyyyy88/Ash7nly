@@ -18,7 +18,6 @@ import com.ash7nly.monolith.repository.ShipmentRepository;
 import com.ash7nly.monolith.security.CurrentUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,11 +32,17 @@ public class DeliveryService {
     private final CurrentUserService currentUserService;
     private final NotificationService notificationService;
     private final ShipmentMapper shipmentMapper;
+    private final ShipmentService shipmentService;
+
+
 
 
     public DeliveryService(DeliveryRepository deliveryRepository, DriverRepository driverRepository,
                            ShipmentRepository shipmentRepository, DeliveryMapper deliveryMapper,
-                           CurrentUserService currentUserService, NotificationService notificationService, ShipmentMapper shipmentMapper) {
+                           CurrentUserService currentUserService, NotificationService notificationService,
+                           ShipmentMapper shipmentMapper,
+                            ShipmentService shipmentService
+    ) {
         this.deliveryRepository = deliveryRepository;
         this.driverRepository = driverRepository;
         this.shipmentRepository = shipmentRepository;
@@ -45,6 +50,7 @@ public class DeliveryService {
         this.currentUserService = currentUserService;
         this.notificationService = notificationService;
         this.shipmentMapper = shipmentMapper;
+        this.shipmentService = shipmentService;
     }
 
 
@@ -132,14 +138,20 @@ public class DeliveryService {
 
         ShipmentEntity shipment = delivery.getShipment();
 
-        validateStatusTransition(shipment. getStatus(), request.getStatus());
+        validateStatusTransition(shipment.getStatus(), request.getStatus());
 
         LocalDateTime now = LocalDateTime.now();
+
+        Long id = shipment.getShipmentId();
+        System.out.println("Shipment ID: " + id);
+
+
 
         switch (request.getStatus()) {
             case PICKED_UP:
                 delivery.setPickedUpAt(now);
                 shipment.setStatus(ShipmentStatus. PICKED_UP);
+                shipmentService.updateShipmentStatus(id, ShipmentStatus. PICKED_UP); ;
                 break;
 
             case IN_TRANSIT:
@@ -147,6 +159,8 @@ public class DeliveryService {
                     throw new BadRequestException("Cannot set IN_TRANSIT before PICKED_UP");
                 }
                 shipment.setStatus(ShipmentStatus.IN_TRANSIT);
+                shipmentService.updateShipmentStatus(id, ShipmentStatus. IN_TRANSIT); ;
+
                 break;
 
             case DELIVERED:
@@ -155,12 +169,18 @@ public class DeliveryService {
                 }
                 delivery.setDeliveredAt(now);
                 shipment.setStatus(ShipmentStatus.DELIVERED);
+                shipmentService.updateShipmentStatus(id, ShipmentStatus. DELIVERED); ;
+
                 shipment.setActive(false);
                 break;
 
             case FAILED:
                 delivery.setDeliveredAt(now);
                 shipment.setStatus(ShipmentStatus.FAILED);
+                shipment.setActive(false);
+                shipmentService.updateShipmentStatus(id, ShipmentStatus. FAILED); ;
+
+
                 break;
 
             default:

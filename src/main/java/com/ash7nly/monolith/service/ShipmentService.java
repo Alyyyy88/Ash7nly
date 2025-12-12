@@ -8,8 +8,10 @@ import com.ash7nly.monolith.exception.NotFoundException;
 import com.ash7nly.monolith.entity.*;
 import com.ash7nly.monolith.mapper.*;
 import com.ash7nly.monolith.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -17,25 +19,31 @@ import java.util.Objects;
 @Service
 public class ShipmentService {
 
-    private final ShipmentRepository shipmentRepository;
-    private final ShipmentMapper shipmentMapper;
-    private final TrackingMapper trackingMapper;
-    private final TrackingHistoryRepository trackingHistoryRepository;
-    private final DeliveryRepository deliveryRepository;
-    private final NotificationService notificationService;
+    @Autowired
+    private ShipmentRepository shipmentRepository;
+    @Autowired
+    private ShipmentMapper shipmentMapper;
+    @Autowired
+    private TrackingMapper trackingMapper;
+    @Autowired
+    private TrackingHistoryRepository trackingHistoryRepository;
+    @Autowired
+    private DeliveryRepository deliveryRepository;
+    @Autowired
+    private NotificationService notificationService;
 
 
-    public ShipmentService  (ShipmentRepository shipmentRepository, TrackingMapper trackingMapper , ShipmentMapper shipmentMapper, TrackingHistoryRepository trackingHistoryRepository, DeliveryRepository deliveryRepository, NotificationService notificationService){
-        this.shipmentRepository =shipmentRepository;
-        this.trackingMapper = trackingMapper;
-        this.shipmentMapper = shipmentMapper;
-        this.trackingHistoryRepository= trackingHistoryRepository;
-        this.deliveryRepository = deliveryRepository;
-        this.notificationService = notificationService;
+    @Autowired
+    public ShipmentService(ShipmentRepository shipmentRepository, TrackingMapper trackingMapper, ShipmentMapper shipmentMapper, TrackingHistoryRepository trackingHistoryRepository, DeliveryRepository deliveryRepository, NotificationService notificationService) {
+
     }
-    public TrackShipmentDTO TrackingInfo(String trackingNumber){
+
+    public ShipmentService() {
+    }
+
+    public TrackShipmentDTO TrackingInfo(String trackingNumber) {
         ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
-                .orElseThrow(()->new NotFoundException(
+                .orElseThrow(() -> new NotFoundException(
                         "Tracking Code not found"));
         return trackingMapper.toDTO(shipment);
     }
@@ -60,8 +68,6 @@ public class ShipmentService {
         System.out.println("Attempting to send shipment created notification email for shipment: " + shipment.getTrackingNumber());
 
 
-
-
         try {
             String emailAddress = Objects.requireNonNullElse(
                     shipment.getCustomerEmail(),
@@ -78,7 +84,7 @@ public class ShipmentService {
         }
 
 
-        return saved ;
+        return saved;
     }
 
 
@@ -144,9 +150,9 @@ public class ShipmentService {
     }
 
 
-    public ShipmentListDTO getShipmentById(long shipmentId){
+    public ShipmentListDTO getShipmentById(long shipmentId) {
         ShipmentEntity shipments = shipmentRepository.findByShipmentId(shipmentId)
-                .orElseThrow(()-> new NotFoundException("ShipmentEntity not Found"));
+                .orElseThrow(() -> new NotFoundException("ShipmentEntity not Found"));
         return shipmentMapper.toDTO(shipments);
     }
 
