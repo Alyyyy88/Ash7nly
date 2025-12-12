@@ -12,7 +12,7 @@ public class DeliveryMapper {
 
         DeliveryResponse response = new DeliveryResponse();
         response.setId(delivery.getId());
-        response.setShipmentId(delivery.getShipment() != null ? delivery.getShipment().getId() : null);
+        response.setShipmentId(delivery.getShipment() != null ? delivery.getShipment().getShipmentId() : null);
         response.setDriverId(delivery.getDriver() != null ? delivery.getDriver().getId() : null);
         response.setAssignedAt(delivery.getAssignedAt());
         response.setAcceptedAt(delivery.getAcceptedAt());
@@ -37,7 +37,7 @@ public class DeliveryMapper {
 
         // Shipment info
         if (delivery.getShipment() != null) {
-            response. setShipmentId(delivery. getShipment().getId());
+            response. setShipmentId(delivery. getShipment().getShipmentId());
             response.setTrackingNumber(delivery.getShipment().getTrackingNumber());
             response.setShipmentStatus(delivery.getShipment().getStatus().toString());
         }

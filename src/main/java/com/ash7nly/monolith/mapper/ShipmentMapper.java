@@ -1,70 +1,83 @@
 package com.ash7nly.monolith.mapper;
 
-import com.ash7nly.monolith.dto.request.CreateShipmentRequest;
-import com.ash7nly.monolith.dto.response.CancelShipmentResponse;
-import com.ash7nly.monolith.dto.response.ShipmentResponse;
-import com.ash7nly.monolith.entity.Shipment;
-import com.ash7nly.monolith.entity.User;
+import com.ash7nly.monolith.dto.request.CreateShipmentDTO;
+import com.ash7nly.monolith.dto.request.ShipmentListDTO;
+import com.ash7nly.monolith.dto.request.UpdateShipmentDTO;
+import com.ash7nly.monolith.dto.response.CancelShipmentResponseDto;
+import com.ash7nly.monolith.entity.ShipmentEntity;
+import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.ShipmentStatus;
+import com.ash7nly.monolith.exception.ForbiddenException;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Component   // <<< ADD THIS
 public class ShipmentMapper {
+    private final TrackingMapper trackingMapper;
+    public ShipmentMapper(TrackingMapper trackingMapper){
+        this.trackingMapper=trackingMapper;
 
-    public Shipment toEntity(CreateShipmentRequest request, User merchant) {
-        Shipment shipment = new Shipment();
-        shipment.setMerchant(merchant);
-        shipment.setPickupAddress(request.getPickupAddress());
-        shipment.setDeliveryAddress(request.getDeliveryAddress());
+    }
+    public ShipmentEntity toEntity(CreateShipmentDTO request, Long merchantId) {
+
+        ShipmentEntity shipment = new ShipmentEntity();
+        shipment.setMerchantId(merchantId);
+        shipment.setPickupAdress(request.getPickupAdress());
+        shipment.setDeliveryAdress(request.getDeliveryAdress());
         shipment.setCustomerName(request.getCustomerName());
-        shipment.setCustomerPhone(request.getCustomerPhone());
+        shipment.setCustomerphone(request.getCustomerPhone());
+        shipment.setCustomerEmail(request.getCustomerEmail());
         shipment.setPackageWeight(request.getPackageWeight());
         shipment.setPackageDimension(request.getPackageDimension());
         shipment.setPackageDescription(request.getPackageDescription());
-        shipment.setCost(request.getCost());
+        shipment.setCost(CalculateCost(request));
         shipment.setStatus(ShipmentStatus.CREATED);
-        shipment.setTrackingNumber(generateTrackingCode());
+        shipment.setTrackingNumber(trackingMapper.generateTrackingCode());
         shipment.setActive(true);
+
         return shipment;
     }
 
-    public ShipmentResponse toResponse(Shipment entity) {
-        if (entity == null) return null;
+    public ShipmentListDTO toDTO(ShipmentEntity entity) {
 
-        ShipmentResponse response = new ShipmentResponse();
-        response.setId(entity.getId());
-        response.setTrackingNumber(entity.getTrackingNumber());
-        response.setPickupAddress(entity.getPickupAddress());
-        response.setDeliveryAddress(entity.getDeliveryAddress());
-        response.setCustomerName(entity.getCustomerName());
-        response.setCustomerPhone(entity.getCustomerPhone());
-        response.setPackageWeight(entity.getPackageWeight());
-        response.setPackageDimension(entity.getPackageDimension());
-        response.setPackageDescription(entity.getPackageDescription());
-        response.setMerchantId(entity.getMerchant() != null ? entity.getMerchant().getId() : null);
-        response.setStatus(entity.getStatus());
-        response.setCost(entity.getCost());
-        response.setCreatedAt(entity.getCreatedAt());
-        response.setUpdatedAt(entity.getUpdatedAt());
-        return response;
+        ShipmentListDTO shipment = new ShipmentListDTO();
+        shipment.setMerchantId(entity.getMerchantId());
+        shipment.setPickupAdress(entity.getPickupAdress());
+        shipment.setDeliveryAdress(entity.getDeliveryAdress());
+        shipment.setCustomerName(entity.getCustomerName());
+        shipment.setCustomerEmail(entity.getCustomerEmail());
+        shipment.setCost(entity.getCost());
+        shipment.setStatus(entity.getStatus());
+        shipment.setTrackingNumber(trackingMapper.generateTrackingCode());
+        shipment.setActive(true);
+        shipment.setShipmentId(entity.getShipmentId());
+
+        return shipment;
     }
+    public static CancelShipmentResponseDto toCancelResponse(ShipmentEntity shipment) {
 
-    public CancelShipmentResponse toCancelResponse(Shipment shipment) {
-        return new CancelShipmentResponse(
-                shipment.getTrackingNumber(),
-                shipment.getStatus().name(),
-                "Shipment cancelled successfully"
-        );
+        CancelShipmentResponseDto dto = new CancelShipmentResponseDto();
+        dto.setTrackingNumber(shipment.getTrackingNumber());
+        dto.setStatus(shipment.getStatus().name());
+        dto.setMessage("Shipment cancelled successfully");
+
+        return dto;
     }
-
-    public String generateTrackingCode() {
-        String uuid = UUID.randomUUID().toString();
-        String uniqueBase = uuid.replace("-", "").toUpperCase(); // 32 chars
-        String uniqueCode = uniqueBase.substring(0, 12);
-
-        return "TRK" + uniqueCode;
+    public static UpdateShipmentDTO toUpdateShipment(ShipmentEntity shipment){
+        UpdateShipmentDTO updateShipmentDTO = new UpdateShipmentDTO();
+        updateShipmentDTO.setShipmentID(shipment.getShipmentId());
+        updateShipmentDTO.setStatus(shipment.getStatus());
+        return updateShipmentDTO;
+    }
+    public static double CalculateCost(CreateShipmentDTO createShipmentDTO){
+        double weight = Double.parseDouble(createShipmentDTO.getPackageWeight().replace("kg","").trim());
+        if(weight > 60 ){
+            throw new ForbiddenException("Weight is Over 60kg , Not allowed ");
+        }
+        return switch (createShipmentDTO.getDeliveryAdress()) {
+            case HELWAN -> createShipmentDTO.getCost() + 30;
+            case FISAL -> createShipmentDTO.getCost() + 40;
+            case HARAM -> createShipmentDTO.getCost() + 50;
+            case MAADI -> createShipmentDTO.getCost() + 60;
+        };
     }
 }
-

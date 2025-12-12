@@ -5,6 +5,7 @@ import com.ash7nly.monolith.dto.request.UpdateDriverRequest;
 import com.ash7nly.monolith.dto.response.DriverResponse;
 import com.ash7nly.monolith.entity.Driver;
 import com.ash7nly.monolith.entity.User;
+import com.ash7nly.monolith.enums.DeliveryArea;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,7 +33,7 @@ public class DriverMapper {
         response.setVehicleType(driver.getVehicleType().toString());
         response.setVehicleNumber(driver.getVehicleNumber());
         response.setLicenseNumber(driver.getLicenseNumber());
-        response.setServiceArea(driver.getServiceArea());
+        response.setServiceArea(driver.getServiceArea().toString());
         return response;
     }
 
@@ -47,7 +48,7 @@ public class DriverMapper {
             driver.setLicenseNumber(request.getLicenseNumber());
         }
         if (request.getServiceArea() != null && !request.getServiceArea().isBlank()) {
-            driver.setServiceArea(request.getServiceArea());
+            driver.setServiceArea(DeliveryArea.valueOf(request.getServiceArea()));
         }
         if (request.getIsAvailable() != null) {
             driver.setAvailable(request.getIsAvailable());
@@ -66,7 +67,7 @@ public class DriverMapper {
         response.setVehicleType(driver.getVehicleType().toString());
         response.setVehicleNumber(driver.getVehicleNumber());
         response.setLicenseNumber(driver.getLicenseNumber());
-        response.setServiceArea(driver.getServiceArea());
+        response.setServiceArea(driver.getServiceArea().toString());
         response.setAvailable(driver.isAvailable());
         return response;
     }

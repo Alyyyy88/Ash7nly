@@ -80,7 +80,7 @@ public class DriverController {
     // GET AVAILABLE DELIVERIES FOR DRIVER'S SERVICE AREA
     @PreAuthorize("hasAuthority('DRIVER')")
     @GetMapping("/deliveries/available")
-    public ApiResponse<List<ShipmentResponse>> getAvailableDeliveries() {
+    public ApiResponse<List<ShipmentListDTO>> getAvailableDeliveries() {
         return ApiResponse.success(
                 deliveryService.getAvailableDeliveries(),
                 "Available deliveries retrieved successfully"

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrentUserService {
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof User) {
             return (User) authentication.getPrincipal();
@@ -16,7 +16,7 @@ public class CurrentUserService {
         return null;
     }
 
-    public Long getCurrentUserId() {
+    public static Long getCurrentUserId() {
         User user = getCurrentUser();
         return user != null ? user.getId() : null;
     }

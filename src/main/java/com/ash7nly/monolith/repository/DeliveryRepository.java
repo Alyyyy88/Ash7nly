@@ -14,11 +14,12 @@ import java.util.Optional;
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByDriverId(Long driverId);
     List<Delivery> findByDriverIdAndDeliveredAtIsNull(Long driverId);
-    Optional<Delivery> findByShipmentId(Long shipmentId);
+    @Query("SELECT d FROM Delivery d WHERE d.shipmentEntity.shipmentId = :shipmentId")
+    Optional<Delivery> findByShipmentId(@Param("shipmentId") Long shipmentId);
 
 
     @Query("SELECT d FROM Delivery d " +
-            "JOIN FETCH d.shipment s " +
+            "JOIN FETCH d.shipmentEntity s " +
             "WHERE d.driver.id = :driverId " +
             "AND s.status = :status " +
             "ORDER BY d.assignedAt DESC")
@@ -27,7 +28,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
 
     @Query("SELECT d FROM Delivery d " +
-            "JOIN FETCH d.shipment s " +
+            "JOIN FETCH d.shipmentEntity s " +
             "WHERE d.driver.id = :driverId " +
             "AND s.status NOT IN :excludedStatuses " +
             "ORDER BY d.assignedAt DESC")
@@ -36,21 +37,21 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
 
     @Query("SELECT d FROM Delivery d " +
-            "JOIN FETCH d.shipment s " +
+            "JOIN FETCH d.shipmentEntity s " +
             "WHERE d.driver. id = :driverId " +
             "AND s.status = 'DELIVERED' " +
             "ORDER BY d.deliveredAt DESC")
     List<Delivery> findCompletedDeliveriesByDriverId(@Param("driverId") Long driverId);
 
     @Query("SELECT COUNT(d) FROM Delivery d " +
-            "JOIN d.shipment s " +
+            "JOIN d.shipmentEntity s " +
             "WHERE d.driver.id = :driverId " +
             "AND s.status = 'DELIVERED'")
     Long countCompletedDeliveriesByDriverId(@Param("driverId") Long driverId);
 
 
     @Query("SELECT COUNT(d) FROM Delivery d " +
-            "JOIN d.shipment s " +
+            "JOIN d.shipmentEntity s " +
             "WHERE d.driver.id = :driverId " +
             "AND s.status NOT IN :excludedStatuses ")
     Long countActiveDeliveriesByDriverId(@Param("driverId") Long driverId ,

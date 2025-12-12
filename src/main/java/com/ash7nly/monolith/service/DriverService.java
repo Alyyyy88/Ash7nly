@@ -9,8 +9,9 @@ import com.ash7nly.monolith.dto.response.DeliveryResponse;
 import com.ash7nly.monolith.dto.response.DriverResponse;
 import com.ash7nly.monolith.entity.Delivery;
 import com.ash7nly.monolith.entity.Driver;
-import com.ash7nly.monolith.entity.Shipment;
+import com.ash7nly.monolith.entity.ShipmentEntity;
 import com.ash7nly.monolith.entity.User;
+import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.ShipmentStatus;
 import com.ash7nly.monolith.enums.UserRole;
 import com.ash7nly.monolith.exception.BadRequestException;
@@ -87,7 +88,7 @@ public class DriverService {
         driver.setVehicleType(request.getVehicleType());
         driver.setVehicleNumber(request. getVehicleNumber());
         driver.setLicenseNumber(request.getLicenseNumber());
-        driver.setServiceArea(request.getServiceArea());
+        driver.setServiceArea(DeliveryArea.valueOf(request.getServiceArea()));
         driver.setAvailable(true);
 
         driver = driverRepository.save(driver);
@@ -171,8 +172,8 @@ public class DriverService {
             throw new BadRequestException("Delivery is already assigned to another driver");
         }
 
-        Shipment shipment = delivery.getShipment();
-        if (!shipment.getDeliveryAddress().equalsIgnoreCase(driver.getServiceArea())) {
+        ShipmentEntity shipment = delivery.getShipment();
+        if (!shipment.getDeliveryAdress().toString().equalsIgnoreCase(driver.getServiceArea().toString())) {
             throw new BadRequestException("Shipment delivery address is not in your service area");
         }
 

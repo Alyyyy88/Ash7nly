@@ -1,0 +1,252 @@
+package com.ash7nly.monolith.entity;
+
+import com.ash7nly.monolith.enums.DeliveryArea;
+import com.ash7nly.monolith.enums.ShipmentStatus;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Entity
+@Table(name = "Shipment")
+public class ShipmentEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long shipmentId;
+
+    @Column(unique = true, nullable = false)
+    private String  trackingNumber;
+
+    @Column(nullable = false)
+    private String pickupAdress;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryArea deliveryAdress;
+
+    private String customerName;
+    private String customerphone;
+    private String packageWeight;
+    private String packageDimension;
+    @Email
+    private String customerEmail;
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    @Column(nullable = false)
+    private Long merchantId;
+
+    @Lob
+    private String packageDescription;
+
+    @Enumerated(EnumType.STRING)
+    private ShipmentStatus status;
+
+    @Column(nullable = false)
+    private double cost;
+
+    private boolean isActive = true;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    private String cancellationReason;
+
+
+
+    @OneToMany(mappedBy = "shipmentEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrackingHistoryEntity> trackingHistory = new ArrayList<>();
+
+    // -------------------------
+    // Constructors
+    // -------------------------
+
+    public ShipmentEntity() {}
+
+    public ShipmentEntity(long shipmentId, String trackingNumber, String pickupAdress,
+                          DeliveryArea deliveryAdress, String customerName, String customerphone,String customerEmail,
+                          String packageWeight, String packageDimension, Long merchantId,
+                          String packageDescription, ShipmentStatus status, double cost,
+                          boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,String cancellationReason, List<TrackingHistoryEntity> trackingHistory) {
+        this.shipmentId = shipmentId;
+        this.trackingNumber = trackingNumber;
+        this.pickupAdress = pickupAdress;
+        this.deliveryAdress = deliveryAdress;
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerphone = customerphone;
+        this.packageWeight = packageWeight;
+        this.packageDimension = packageDimension;
+        this.merchantId = merchantId;
+        this.packageDescription = packageDescription;
+        this.status = status;
+        this.cost = cost;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.cancellationReason = cancellationReason;
+        this.trackingHistory= trackingHistory;
+    }
+
+    // -------------------------
+    // Getters & Setters
+    // -------------------------
+
+    public List<TrackingHistoryEntity> getTrackingHistory() {
+        return trackingHistory;
+    }
+
+    public void setTrackingHistory(List<TrackingHistoryEntity> trackingHistory) {
+        this.trackingHistory = trackingHistory;
+    }
+    public String getCancellationReason() {
+        return cancellationReason;
+    }
+
+    public void setCancellationReason(String cancellationReason) {
+        this.cancellationReason = cancellationReason;
+    }
+    public long getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(long shipmentId) {
+        this.shipmentId = shipmentId;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public String getPickupAdress() {
+        return pickupAdress;
+    }
+
+    public void setPickupAdress(String pickupAdress) {
+        this.pickupAdress = pickupAdress;
+    }
+
+    public DeliveryArea getDeliveryAdress() {
+        return deliveryAdress;
+    }
+
+    public void setDeliveryAdress(DeliveryArea deliveryAdress) {
+        this.deliveryAdress = deliveryAdress;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerphone() {
+        return customerphone;
+    }
+
+    public void setCustomerphone(String customerphone) {
+        this.customerphone = customerphone;
+    }
+
+    public String getPackageWeight() {
+        return packageWeight;
+    }
+
+    public void setPackageWeight(String packageWeight) {
+        this.packageWeight = packageWeight;
+    }
+
+    public String getPackageDimension() {
+        return packageDimension;
+    }
+
+    public void setPackageDimension(String packageDimension) {
+        this.packageDimension = packageDimension;
+    }
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public String getPackageDescription() {
+        return packageDescription;
+    }
+
+    public void setPackageDescription(String packageDescription) {
+        this.packageDescription = packageDescription;
+    }
+
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // -------------------------
+    // Lifecycle Hooks
+    // -------------------------
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}

@@ -91,9 +91,9 @@ java -jar target/ash7nly-1.0-SNAPSHOT.jar
 - `GET /api/users/{id}` - Get user by ID (Admin only)
 
 ### Shipments
-- `POST /api/shipments` - Create shipment (Merchant only)
-- `GET /api/shipments/tracking/{trackingNumber}` - Track shipment (Public)
-- `POST /api/shipments/cancel` - Cancel shipment
+- `POST /api/shipments` - Create shipmentEntity (Merchant only)
+- `GET /api/shipments/tracking/{trackingNumber}` - Track shipmentEntity (Public)
+- `POST /api/shipments/cancel` - Cancel shipmentEntity
 - `GET /api/shipments/my-shipments` - Get merchant's shipments
 
 ### Drivers

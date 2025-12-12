@@ -1,12 +1,12 @@
 package com.ash7nly.monolith.controller;
 
-import com.ash7nly.monolith.dto.request.CancelShipmentRequest;
-import com.ash7nly.monolith.dto.request.CreateShipmentRequest;
+import com.ash7nly.monolith.dto.request.*;
 import com.ash7nly.monolith.dto.response.ApiResponse;
-import com.ash7nly.monolith.dto.response.CancelShipmentResponse;
-import com.ash7nly.monolith.dto.response.ShipmentResponse;
+import com.ash7nly.monolith.dto.response.CancelShipmentResponseDto;
+import com.ash7nly.monolith.entity.ShipmentEntity;
+import com.ash7nly.monolith.enums.DeliveryArea;
+import com.ash7nly.monolith.security.CurrentUserService;
 import com.ash7nly.monolith.service.ShipmentService;
-import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,34 +15,53 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/shipments")
 public class ShipmentController {
-
-    private final ShipmentService shipmentService;
-
-    public ShipmentController(ShipmentService shipmentService) {
-        this.shipmentService = shipmentService;
+    private final ShipmentService ShipmentService;
+    private final CurrentUserService currentUserService;
+    public ShipmentController( ShipmentService ShipmentService,CurrentUserService currentUserService) {
+        this.ShipmentService = ShipmentService;
+        this.currentUserService = currentUserService;
     }
 
-    @PreAuthorize("hasAuthority('MERCHANT')")
+    @PutMapping("/status")
+    public ApiResponse<UpdateShipmentDTO> updateStatus(
+            @RequestBody UpdateShipmentDTO request
+    ) {
+        return ApiResponse.success(ShipmentService.updateShipmentStatus(request.getShipmentID(), request.getStatus()));
+    }
+
+
     @PostMapping("/create")
-    public ApiResponse<ShipmentResponse> createShipment(@Valid @RequestBody CreateShipmentRequest request) {
-        return ApiResponse.success(shipmentService.createShipment(request), "Shipment created successfully");
+    @PreAuthorize("hasAuthority('MERCHANT')")
+    public ApiResponse<ShipmentEntity> createShipment(@RequestBody CreateShipmentDTO request) {
+        Long userId = Long.valueOf(CurrentUserService.getCurrentUserId());
+        return ApiResponse.success(ShipmentService.createShipment(request, userId));
     }
 
-    // Public endpoint - anyone can track
+
     @GetMapping("/tracking/{trackingNumber}")
-    public ApiResponse<ShipmentResponse> trackShipment(@PathVariable String trackingNumber) {
-        return ApiResponse.success(shipmentService.trackShipment(trackingNumber));
+    public ApiResponse<TrackShipmentDTO> TrackShipment(@PathVariable String trackingNumber) {
+        return ApiResponse.success(ShipmentService.TrackingInfo(trackingNumber));
     }
 
     @PostMapping("/cancel")
-    public ApiResponse<CancelShipmentResponse> cancelShipment(@Valid @RequestBody CancelShipmentRequest request) {
-        return ApiResponse.success(shipmentService.cancelShipment(request), "Shipment cancelled successfully");
+    public ApiResponse<CancelShipmentResponseDto> cancelShipment(
+            @RequestBody CancelShipmentRequestDto request) {
+        return ApiResponse.success(ShipmentService.cancelShipment(request));
     }
 
-    @PreAuthorize("hasAuthority('MERCHANT')")
-    @GetMapping("/my-shipments")
-    public ApiResponse<List<ShipmentResponse>> getMyShipments() {
-        return ApiResponse.success(shipmentService.getMyShipments());
+    @GetMapping("/{trackingNumber}/history")
+    public ApiResponse<List<TrackingHistoryDTO>> getTrackingHistory(@PathVariable String trackingNumber) {
+        return ApiResponse.success(ShipmentService.getTrackingHistory(trackingNumber));
     }
+
+    @GetMapping("/area/{serviceArea}")
+    public ApiResponse<List<ShipmentListDTO>> getByServiceArea(@PathVariable DeliveryArea serviceArea) {
+        return ApiResponse.success(ShipmentService.getShipmentsByServiceArea(serviceArea));
+    }
+
+    @GetMapping("/{shipmentId}")
+    public ApiResponse<ShipmentListDTO> getShipmentById(@PathVariable long shipmentId){
+        return ApiResponse.success(ShipmentService.getShipmentById(shipmentId));
+    }
+
 }
-

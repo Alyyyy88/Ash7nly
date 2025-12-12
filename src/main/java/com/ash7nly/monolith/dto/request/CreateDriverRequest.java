@@ -1,5 +1,6 @@
 package com.ash7nly.monolith.dto.request;
 
+import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.VehicleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ public class CreateDriverRequest {
     private String licenseNumber;
 
     @NotBlank(message = "Service area is required")
-    private String serviceArea;
+    private DeliveryArea serviceArea;
 
     private Boolean isAvailable = true;
 
@@ -47,11 +48,11 @@ public class CreateDriverRequest {
         this.licenseNumber = licenseNumber;
     }
 
-    public String getServiceArea() {
+    public DeliveryArea getServiceArea() {
         return serviceArea;
     }
 
-    public void setServiceArea(String serviceArea) {
+    public void setServiceArea(DeliveryArea serviceArea) {
         this.serviceArea = serviceArea;
     }
 

@@ -1,6 +1,8 @@
 package com.ash7nly.monolith.entity;
 
+import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.VehicleType;
+import com.ash7nly.monolith.service.DeliveryService;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -24,7 +26,10 @@ public class Driver {
 
     private String vehicleNumber;
     private String licenseNumber;
-    private String serviceArea;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryArea serviceArea;
+
     private boolean isAvailable = true;
 
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
@@ -79,11 +84,11 @@ public class Driver {
         this.licenseNumber = licenseNumber;
     }
 
-    public String getServiceArea() {
+    public DeliveryArea getServiceArea() {
         return serviceArea;
     }
 
-    public void setServiceArea(String serviceArea) {
+    public void setServiceArea(DeliveryArea serviceArea) {
         this.serviceArea = serviceArea;
     }
 

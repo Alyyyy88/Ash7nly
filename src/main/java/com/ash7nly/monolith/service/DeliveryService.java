@@ -1,16 +1,12 @@
 package com.ash7nly.monolith.service;
 
-import com.ash7nly.monolith.dto.request.CreateDriverUserRequest;
+import com.ash7nly.monolith.dto.request.ShipmentListDTO;
 import com.ash7nly.monolith.dto.request.UpdateDeliveryStatusRequest;
 import com.ash7nly.monolith.dto.response.DeliveryResponse;
-import com.ash7nly.monolith.dto.response.DriverResponse;
-import com.ash7nly.monolith.dto.response.ShipmentResponse;
 import com.ash7nly.monolith.entity.Delivery;
 import com.ash7nly.monolith.entity.Driver;
-import com.ash7nly.monolith.entity.Shipment;
-import com.ash7nly.monolith.entity.User;
+import com.ash7nly.monolith.entity.ShipmentEntity;
 import com.ash7nly.monolith.enums.ShipmentStatus;
-import com.ash7nly.monolith.enums.UserRole;
 import com.ash7nly.monolith.exception.BadRequestException;
 import com.ash7nly.monolith.exception.ForbiddenException;
 import com.ash7nly.monolith.exception.NotFoundException;
@@ -19,7 +15,6 @@ import com.ash7nly.monolith.mapper.ShipmentMapper;
 import com.ash7nly.monolith.repository.DeliveryRepository;
 import com.ash7nly.monolith.repository.DriverRepository;
 import com.ash7nly.monolith.repository.ShipmentRepository;
-import com.ash7nly.monolith.repository.UserRepository;
 import com.ash7nly.monolith.security.CurrentUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +82,7 @@ public class DeliveryService {
             return;
         }
 
-        Long currentUserId = currentUserService.getCurrentUserId();
+        Long currentUserId = CurrentUserService.getCurrentUserId();
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new NotFoundException("Driver not found"));
 
@@ -98,9 +93,9 @@ public class DeliveryService {
 
     // GET DELIVERIES FOR THE SAME SERVICE AREA OF THE DRIVER
 
-    public List<ShipmentResponse> getAvailableDeliveries() {
+    public List<ShipmentListDTO> getAvailableDeliveries() {
 
-        Long userId = currentUserService. getCurrentUserId();
+        Long userId = CurrentUserService. getCurrentUserId();
 
         if (!currentUserService.isDriver()) {
             throw new ForbiddenException("Only drivers can access this endpoint");
@@ -109,10 +104,10 @@ public class DeliveryService {
         Driver driver = driverRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException("Driver profile not found"));
 
-        List<Shipment> shipments = driverRepository.findAvailableShipmentsForDriver(driver.getId());
+        List<ShipmentEntity> shipments = driverRepository.findAvailableShipmentsForDriver(driver.getId());
 
         return shipments.stream()
-                .map(shipmentMapper::toResponse)
+                .map(shipmentMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -135,7 +130,7 @@ public class DeliveryService {
             throw new ForbiddenException("This delivery is not assigned to you");
         }
 
-        Shipment shipment = delivery.getShipment();
+        ShipmentEntity shipment = delivery.getShipment();
 
         validateStatusTransition(shipment. getStatus(), request.getStatus());
 
@@ -180,7 +175,7 @@ public class DeliveryService {
         shipmentRepository.save(shipment);
 
         try {
-            String customerEmail = "test@test.com"; // Testing
+            String customerEmail = shipment.getCustomerEmail();
             notificationService.sendStatusUpdateNotification(delivery, customerEmail);
         } catch (Exception e) {
             System.err.println(" Warning: Failed to send status update email:  " + e.getMessage());

@@ -1,7 +1,7 @@
 package com.ash7nly.monolith.service;
 
 import com.ash7nly.monolith.entity.Delivery;
-import com.ash7nly.monolith.entity.Shipment;
+import com.ash7nly.monolith.entity.ShipmentEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -18,14 +18,14 @@ public class NotificationService {
     }
 
 
-    public void sendShipmentCreatedNotification(Shipment shipment, String customerEmail) {
+    public void sendShipmentCreatedNotification(ShipmentEntity shipment, String customerEmail) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("trackingNumber", shipment.getTrackingNumber());
         variables.put("customerName", shipment.getCustomerName());
         variables.put("status", shipment.getStatus().toString());
         variables.put("packageWeight", shipment.getPackageWeight());
         variables.put("packageDimension", shipment.getPackageDimension());
-        variables.put("deliveryArea", shipment.getDeliveryAddress());
+        variables.put("deliveryArea", shipment.getDeliveryAdress().toString());
         variables.put("cost", String.format("%.2f", shipment.getCost()));
 
         System.out.println("📧 Sending shipment notification to: " + customerEmail);
@@ -46,13 +46,13 @@ public class NotificationService {
                 return;
             }
 
-            Shipment shipment = delivery.getShipment();
+            ShipmentEntity shipment = delivery.getShipment();
 
             Map<String, Object> variables = new HashMap<>();
             variables.put("trackingNumber", shipment.getTrackingNumber() != null ? shipment.getTrackingNumber() : "N/A");
             variables.put("customerName", shipment.getCustomerName() != null ? shipment.getCustomerName() : "Customer");
             variables.put("status", shipment.getStatus() != null ? shipment.getStatus().toString() : "UNKNOWN");
-            variables.put("currentLocation", shipment.getDeliveryAddress() != null ? shipment.getDeliveryAddress() : "Unknown");
+            variables.put("currentLocation", shipment.getDeliveryAdress() != null ? shipment.getDeliveryAdress() : "Unknown");
             variables.put("updatedAt", java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm")));
 
             // Add driver info if available
