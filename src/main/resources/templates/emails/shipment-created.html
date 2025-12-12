@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Created - {{trackingNumber}}</title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1A202C; /* Foreground */
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #F3F4F6; /* Secondary */
+            padding: 0;
+        }
+
+        .email-container {
+            background-color: #ffffff;
+            overflow: hidden;
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .header {
+            background-color: #EF4444; /* Primary Red */
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        .content {
+            padding: 40px 32px;
+        }
+
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1A202C;
+            font-weight: 600;
+        }
+
+        .tracking-box {
+            background-color: #FEF2F2; /* Accent */
+            border: 1px solid #FECACA; /* Red-200 */
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .tracking-label {
+            font-size: 12px;
+            color: #EF4444; /* Primary */
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .tracking-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1A202C;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .details-section {
+            margin: 32px 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .details-grid {
+            background-color: #F8FAFC;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .detail-row:not(:last-child) {
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .detail-label {
+            color: #64748B;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #1A202C;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: #22C55E; /* Success Green */
+            color: white;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .track-button {
+            display: block;
+            background-color: #EF4444; /* Primary Red */
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            margin: 32px auto;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .info-box {
+            background-color: #EFF6FF; /* Blue-50 */
+            border-left: 4px solid #3B82F6; /* Blue-500 */
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 32px 0;
+        }
+
+        .info-box h4 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1E40AF;
+        }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #1E3A8A;
+        }
+
+        .info-box li {
+            margin: 6px 0;
+        }
+
+        .support-text {
+            color: #64748B;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .support-text a {
+            color: #EF4444;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer {
+            background-color: #F8FAFC;
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            color: #1A202C;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .footer-links {
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #64748B;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 500;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: #94A3B8;
+            margin-top: 16px;
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            vertical-align: middle;
+            color: #EF4444;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            .content {
+                padding: 24px 20px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+
+            .tracking-number {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px; display: block;">
+                <path d="M1 3h15v13H1z" fill="none"/>
+                <path d="M16 8l5 3v8h-5M16 19h-2M4 19H2" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 3h13v16H3z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+                <circle cx="5.5" cy="19.5" r="2.5" stroke="white" stroke-width="2.5"/>
+                <circle cx="18.5" cy="19.5" r="2.5" stroke="white" stroke-width="2.5"/>
+            </svg>
+        </div>
+        <h1>Shipment Created</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="greeting">
+            Hello <strong th:text="${customerName}"></strong>,
+        </div>
+
+        <p style="color: #475569;">Your shipment has been successfully created and registered in our system. We'll keep you updated at every step.</p>
+
+        <!-- Tracking Number -->
+        <div class="tracking-box">
+            <div class="tracking-number" th:text ="${trackingNumber}"></div>
+        </div>
+
+        <!-- Shipment Details -->
+        <div class="details-section">
+            <div class="section-title">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 8v13H3V8M1 3h22v5H1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Shipment Details
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-row">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value"><span class="status-badge" th:text="${status}"></span></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Weight</span>
+                    <span class="detail-value" th:text="${packageWeight}"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Dimensions</span>
+                    <span class="detail-value" th:text="${packageDimension}"></span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">To</span>
+                    <span class="detail-value" th:text="${deliveryArea}"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cost</span>
+                    <span class="detail-value">EGP <span th:text="${cost}"></span></span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Track Button -->
+        <a th:href="@{'https://tracking.ash7nly.com/' + ${trackingNumber}}" class="track-button">Track Shipment</a>
+
+        <!-- Next Steps -->
+        <div class="info-box">
+            <h4>What happens next?</h4>
+            <ul>
+                <li>Pickup scheduled within 24 hours</li>
+                <li>You'll receive status updates via email</li>
+                <li>Estimated delivery: 2-3 business days</li>
+            </ul>
+        </div>
+
+        <div class="support-text">
+            Need help? Contact us at <a href="mailto:support@ash7nly.com">support@ash7nly.com</a><br>
+            or call +20 123 456 7890
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-brand">Ash7nly</div>
+
+        <div class="footer-links">
+            <a href="#">Help Center</a> •
+            <a href="#">Track Shipment</a> •
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="footer-copy">
+            © 2025 ShipTrack. All rights reserved.<br>
+            <a href="#" style="color: #9ca3af;">Unsubscribe</a> •
+            <a href="#" style="color: #9ca3af;">Privacy Policy</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

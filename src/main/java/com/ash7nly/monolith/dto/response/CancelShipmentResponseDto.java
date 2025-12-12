@@ -1,18 +1,12 @@
 package com.ash7nly.monolith.dto.response;
 
-public class CancelShipmentResponse {
+public class CancelShipmentResponseDto {
+
+
     private String trackingNumber;
+    private long id;
     private String status;
     private String message;
-
-    public CancelShipmentResponse() {
-    }
-
-    public CancelShipmentResponse(String trackingNumber, String status, String message) {
-        this.trackingNumber = trackingNumber;
-        this.status = status;
-        this.message = message;
-    }
 
     public String getTrackingNumber() {
         return trackingNumber;
@@ -37,5 +31,12 @@ public class CancelShipmentResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-}
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+}

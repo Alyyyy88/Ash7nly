@@ -32,9 +32,12 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/shipments/tracking/**").permitAll()
+                        .requestMatchers("/api/drivers/register").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/health").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+
 
                         // Admin only endpoints
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")

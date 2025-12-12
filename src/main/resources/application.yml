@@ -20,8 +20,34 @@ spring:
         format_sql: true
     show-sql: true
 
+  # MailHog Configuration
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+        debug: true
+  # Thymeleaf
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+
 server:
   port: 8080
+
+app:
+  email:
+    from: noreply@ash7nly.com
+    from-name: Ash7nly Delivery Service
 
 # Actuator endpoints
 management:
