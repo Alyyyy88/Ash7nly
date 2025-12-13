@@ -4,7 +4,9 @@
     <option name="migrationStatus" value="IN_PROGRESS" />
     <option name="pendingSessionIds">
       <option value="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35" />
+      <option value="33d7a3c5-67e6-4e2a-b236-35e005bc57c8" />
       <option value="3e476afe-dfe0-46ee-b2f6-c35eafb0a873" />
+      <option value="49b2d063-7785-4d65-9b2c-4b565a433c2f" />
       <option value="4f804507-47fe-40f3-a478-8f40f5f59693" />
       <option value="867f0937-4048-4cd6-9cb9-8fabaacb53b2" />
       <option value="f0162733-cc03-4d4d-ad1b-c9ed394d0c8f" />
@@ -16,6 +18,23 @@
           <value>
             <set>
               <option value="33bd9841-edf3-4930-9427-377fca3178e7" />
+            </set>
+          </value>
+        </entry>
+        <entry key="33d7a3c5-67e6-4e2a-b236-35e005bc57c8">
+          <value>
+            <set>
+              <option value="99d12a9d-739c-48cb-9b54-5dac1548e383" />
+              <option value="e78bc116-bd48-42ab-b011-b43c14352bbc" />
+            </set>
+          </value>
+        </entry>
+        <entry key="49b2d063-7785-4d65-9b2c-4b565a433c2f">
+          <value>
+            <set>
+              <option value="a58153a7-91f4-418f-989f-92695f1b3b8a" />
+              <option value="97325779-3f94-4234-a0b2-5270a81755ce" />
+              <option value="e8494a2a-e257-46ab-88ef-fc34299103ae" />
             </set>
           </value>
         </entry>
@@ -42,9 +61,10 @@
       </map>
     </option>
     <pendingWorkingSetItems>
-      <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35">
+      <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35" />
+      <entry key="33d7a3c5-67e6-4e2a-b236-35e005bc57c8">
         <set>
-          <option value="file://$PROJECT_DIR$/src/main/java/com/ash7nly/monolith/service/ShipmentService.java" />
+          <option value="file://$PROJECT_DIR$/Ash7nly-API.postman_collection.json" />
         </set>
       </entry>
       <entry key="4f804507-47fe-40f3-a478-8f40f5f59693" />
