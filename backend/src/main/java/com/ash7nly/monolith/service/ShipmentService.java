@@ -138,15 +138,24 @@ public class ShipmentService {
 
     }
 
-    public List<TrackingHistoryDTO> getTrackingHistory(long id) {
+    public ShipmentTrackingDTO getTrackingHistory(long id) {
 
         ShipmentEntity shipment = shipmentRepository.findByShipmentId(id)
                 .orElseThrow(() -> new NotFoundException("ShipmentEntity not found"));
 
-        return trackingHistoryRepository.findByShipmentEntityOrderByTimestampAsc(shipment)
+        Delivery delivery = shipment.getDelivery();
+
+        List<TrackingHistoryDTO> trackingHistoryDTOS = trackingHistoryRepository.findByShipmentEntityOrderByTimestampAsc(shipment)
                 .stream()
                 .map(trackingMapper::toDTO)
                 .toList();
+        if(delivery == null || delivery.getDriver() == null){
+           return new ShipmentTrackingDTO(trackingHistoryDTOS, "n/a", "n/a", "n/a");
+        }
+        else {
+            Driver driver = delivery.getDriver();
+            return new ShipmentTrackingDTO(trackingHistoryDTOS, driver.getUser().getPhoneNumber(), driver.getUser().getFullName(), driver.getUser().getEmail());
+        }
     }
 
     public List<ShipmentListDTO> getShipmentsByServiceArea(DeliveryArea serviceArea) {

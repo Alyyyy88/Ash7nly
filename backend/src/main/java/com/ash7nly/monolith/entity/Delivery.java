@@ -25,7 +25,7 @@ public class Delivery {
     @JsonIgnore
     private Driver driver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id")
     private ShipmentEntity shipmentEntity;
 

@@ -24,17 +24,12 @@ public class DeliveryController {
         return ApiResponse.success(deliveryService.getAssignedDeliveries(driverId));
     }
 
-
-
-
-
     @PostMapping("/{id}/failed")
     public ApiResponse<DeliveryResponse> reportFailed(
             @PathVariable Long id,
             @RequestParam String reason) {
         return ApiResponse.success(deliveryService.reportFailed(id, reason), "Delivery marked as failed");
     }
-
 }
 
 

@@ -2,6 +2,7 @@ package com.ash7nly.monolith.entity;
 
 import com.ash7nly.monolith.enums.DeliveryArea;
 import com.ash7nly.monolith.enums.ShipmentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
@@ -17,6 +18,10 @@ public class ShipmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long shipmentId;
+
+    @OneToOne(mappedBy = "shipmentEntity", fetch = FetchType.LAZY)
+    private Delivery delivery;
+
 
     @Column(unique = true, nullable = false)
     private String  trackingNumber;
@@ -248,5 +253,13 @@ public class ShipmentEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 }
