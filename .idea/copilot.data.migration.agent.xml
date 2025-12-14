@@ -7,6 +7,8 @@
       <option value="3e476afe-dfe0-46ee-b2f6-c35eafb0a873" />
       <option value="4f804507-47fe-40f3-a478-8f40f5f59693" />
       <option value="867f0937-4048-4cd6-9cb9-8fabaacb53b2" />
+      <option value="91871077-71fe-43dd-a3eb-dd4d6766ecbd" />
+      <option value="bfd4a600-dd80-442d-a7b6-45753f190b62" />
       <option value="f0162733-cc03-4d4d-ad1b-c9ed394d0c8f" />
       <option value="f8d6c62b-dbb3-4f6f-8071-9f4269346208" />
     </option>
@@ -42,11 +44,7 @@
       </map>
     </option>
     <pendingWorkingSetItems>
-      <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35">
-        <set>
-          <option value="file://$PROJECT_DIR$/src/main/java/com/ash7nly/monolith/service/ShipmentService.java" />
-        </set>
-      </entry>
+      <entry key="2d83bc3c-b9f8-4cae-b5d3-8d4bc342cd35" />
       <entry key="4f804507-47fe-40f3-a478-8f40f5f59693" />
       <entry key="867f0937-4048-4cd6-9cb9-8fabaacb53b2" />
     </pendingWorkingSetItems>

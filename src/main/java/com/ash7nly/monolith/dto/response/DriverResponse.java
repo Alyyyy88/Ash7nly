@@ -11,13 +11,15 @@ public class DriverResponse {
     private String licenseNumber;
     private String serviceArea;
     private boolean isAvailable;
+    private  String phoneNumber;
 
     public DriverResponse() {
     }
 
     public DriverResponse(Long id, Long userId, String username, String fullName, String email,
                           String vehicleType, String vehicleNumber, String licenseNumber,
-                          String serviceArea, boolean isAvailable) {
+                          String serviceArea, boolean isAvailable ,
+                          String phoneNumber) {
         this.id = id;
         this.userId = userId;
         this.username = username;
@@ -28,6 +30,7 @@ public class DriverResponse {
         this.licenseNumber = licenseNumber;
         this.serviceArea = serviceArea;
         this.isAvailable = isAvailable;
+        this.phoneNumber = phoneNumber;
     }
 
     // Getters and Setters
@@ -41,6 +44,14 @@ public class DriverResponse {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setUserId(Long userId) {

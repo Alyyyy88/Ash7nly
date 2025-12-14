@@ -34,6 +34,8 @@ public class DriverMapper {
         response.setVehicleNumber(driver.getVehicleNumber());
         response.setLicenseNumber(driver.getLicenseNumber());
         response.setServiceArea(driver.getServiceArea().toString());
+        response.setAvailable(driver.isAvailable());
+        response.setPhoneNumber(driver.getUser() != null ? driver.getUser().getPhoneNumber() : null);
         return response;
     }
 
@@ -52,7 +54,22 @@ public class DriverMapper {
         }
         if (request.getIsAvailable() != null) {
             driver.setAvailable(request.getIsAvailable());
+
         }
+
+        if (request.getFullName() != null && !request.getFullName().isBlank()) {
+            driver.getUser().setFullName(request.getFullName());
+        }
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
+            driver.getUser().setEmail(request.getEmail());
+        }
+
+        if(request.getPhoneNumber() != null && !request.getPhoneNumber().isBlank()) {
+            driver.getUser().setPhoneNumber(request.getPhoneNumber());
+        }
+
+
+
     }
 
 
@@ -69,6 +86,7 @@ public class DriverMapper {
         response.setLicenseNumber(driver.getLicenseNumber());
         response.setServiceArea(driver.getServiceArea().toString());
         response.setAvailable(driver.isAvailable());
+        response.setPhoneNumber(user.getPhoneNumber());
         return response;
     }
 }

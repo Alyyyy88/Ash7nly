@@ -11,6 +11,15 @@ public class UpdateDriverRequest {
     private Boolean isAvailable;
     private String fullName;
     private  String email;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public UpdateDriverRequest() {
     }

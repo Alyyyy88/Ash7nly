@@ -26,6 +26,14 @@ public class DeliveryMapper {
         response.setShipmentStatus(
                 delivery.getShipment() != null ? delivery.getShipment().getStatus().toString() : null
         );
+        response.setTrackingNumber(
+                delivery.getShipment() != null ? delivery.getShipment().getTrackingNumber() : null
+        );
+        response.setDriverName(
+                delivery.getDriver() != null && delivery.getDriver().getUser() != null ?
+                        delivery.getDriver().getUser().getFullName() : null
+        );
+
         return response;
     }
 
