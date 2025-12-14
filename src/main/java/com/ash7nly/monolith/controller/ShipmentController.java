@@ -38,9 +38,9 @@ public class ShipmentController {
     }
 
 
-    @GetMapping("/tracking/{trackingNumber}")
-    public ApiResponse<TrackShipmentDTO> TrackShipment(@PathVariable String trackingNumber) {
-        return ApiResponse.success(ShipmentService.TrackingInfo(trackingNumber));
+    @GetMapping("/tracking/{shipmentId}")
+    public ApiResponse<TrackShipmentDTO> TrackShipment(@PathVariable long shipmentId) {
+        return ApiResponse.success(ShipmentService.TrackingInfo(shipmentId));
     }
 
     @PostMapping("/cancel")
@@ -49,9 +49,9 @@ public class ShipmentController {
         return ApiResponse.success(ShipmentService.cancelShipment(request));
     }
 
-    @GetMapping("/{id}/history")
-    public ApiResponse<ShipmentTrackingDTO> getTrackingHistory(@PathVariable long id) {
-        return ApiResponse.success(ShipmentService.getTrackingHistory(id));
+    @GetMapping("/{TrackingNumber}/history")
+    public ApiResponse<ShipmentTrackingDTO> getTrackingHistory(@PathVariable String TrackingNumber) {
+        return ApiResponse.success(ShipmentService.getTrackingHistory(TrackingNumber));
     }
 
     @GetMapping("/area/{serviceArea}")
@@ -63,5 +63,4 @@ public class ShipmentController {
     public ApiResponse<ShipmentListDTO> getShipmentById(@PathVariable long shipmentId){
         return ApiResponse.success(ShipmentService.getShipmentById(shipmentId));
     }
-
 }

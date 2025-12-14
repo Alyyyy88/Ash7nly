@@ -41,8 +41,8 @@ public class ShipmentService {
     public ShipmentService() {
     }
 
-    public TrackShipmentDTO TrackingInfo(String trackingNumber) {
-        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(trackingNumber)
+    public TrackShipmentDTO TrackingInfo(long shipmentId) {
+        ShipmentEntity shipment = shipmentRepository.findByShipmentId(shipmentId)
                 .orElseThrow(() -> new NotFoundException(
                         "Tracking Code not found"));
         return trackingMapper.toDTO(shipment);
@@ -130,9 +130,9 @@ public class ShipmentService {
 
     }
 
-    public ShipmentTrackingDTO getTrackingHistory(long id) {
+    public ShipmentTrackingDTO getTrackingHistory(String TrackingNumber) {
 
-        ShipmentEntity shipment = shipmentRepository.findByShipmentId(id)
+        ShipmentEntity shipment = shipmentRepository.findBytrackingNumber(TrackingNumber)
                 .orElseThrow(() -> new NotFoundException("ShipmentEntity not found"));
 
              Delivery delivery = shipment.getDelivery();
