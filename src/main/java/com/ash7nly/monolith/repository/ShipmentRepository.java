@@ -13,5 +13,7 @@ public interface ShipmentRepository extends JpaRepository<ShipmentEntity, Long> 
     Optional<ShipmentEntity> findBytrackingNumber(String trackingNumber);
     Optional<ShipmentEntity> findByShipmentId(long shipmentId);
     List<ShipmentEntity> findByDeliveryAdress(DeliveryArea deliveryArea);
+    List<ShipmentEntity> findByMerchantId(long MerchantId);
+    Long countByMerchantId(Long merchantId);
 }
 

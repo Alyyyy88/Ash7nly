@@ -63,4 +63,9 @@ public class ShipmentController {
     public ApiResponse<ShipmentListDTO> getShipmentById(@PathVariable long shipmentId){
         return ApiResponse.success(ShipmentService.getShipmentById(shipmentId));
     }
+
+    @GetMapping("/{MerchantID}")
+    public ApiResponse<MerchantShipmentsDTO> getShipmentsMerchant(@PathVariable long MerchantID){
+        return ApiResponse.success(ShipmentService.getShipmentByMerhcantID(MerchantID));
+    }
 }

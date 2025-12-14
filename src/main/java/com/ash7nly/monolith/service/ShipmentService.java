@@ -166,4 +166,11 @@ public class ShipmentService {
         return shipmentMapper.toDTO(shipments);
     }
 
+    public MerchantShipmentsDTO getShipmentByMerhcantID(long MerchantID){
+        List<ShipmentEntity> shipmentEntities = shipmentRepository.findByMerchantId(MerchantID);
+        List<ShipmentListDTO> shipmentListDTOS= shipmentEntities.stream().map(shipmentMapper::toDTO).toList();
+        long count = shipmentRepository.countByMerchantId(MerchantID);
+        return new MerchantShipmentsDTO(shipmentListDTOS,count);
+    }
+
 }
