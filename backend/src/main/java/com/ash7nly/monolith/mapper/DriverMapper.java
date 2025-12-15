@@ -40,6 +40,21 @@ public class DriverMapper {
         if (request.getIsAvailable() != null) {
             driver.setAvailable(request.getIsAvailable());
         }
+        if(request.getFullName() != null && !request.getFullName().isBlank() && driver.getUser() != null) {
+            driver.getUser().setFullName(request.getFullName());
+        }
+
+        if(request.getEmail() != null && !request.getEmail().isBlank() && driver.getUser() != null) {
+            driver.getUser().setEmail(request.getEmail());
+        }
+
+        if(request.getFullName() != null && !request.getFullName().isBlank() && driver.getUser() != null) {
+            driver.getUser().setFullName(request.getFullName());
+        }
+
+        if(request.getPhoneNumber() != null && !request.getPhoneNumber().isBlank() && driver.getUser() != null) {
+            driver.getUser().setPhoneNumber(request.getPhoneNumber());
+        }
     }
 
     public DriverResponse buildDriverResponse(Driver driver, User user) {

@@ -31,4 +31,7 @@ public class UpdateDriverRequest {
 
     @Email(message = "Invalid email format")
     private String email;
+
+    @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
+    private String phoneNumber;
 }
