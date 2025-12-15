@@ -1,6 +1,6 @@
-node_modules
-npm-debug.log
-build
+**/node_modules
+**/npm-debug.log
+**/build
 .git
 .gitignore
 .env
@@ -11,4 +11,8 @@ build
 *.md
 .idea
 .vscode
+mobile/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/dist/
 

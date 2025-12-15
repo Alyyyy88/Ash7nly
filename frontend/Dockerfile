@@ -2,13 +2,16 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
+# Install pnpm
+RUN npm install -g pnpm
 
-RUN npm ci
+COPY dashboard/pnpm-lock.yaml dashboard/package.json ./
 
-COPY . .
+RUN pnpm install --frozen-lockfile
 
-RUN npm run build
+COPY dashboard/ .
+
+RUN pnpm build
 
 FROM nginx:alpine
 
